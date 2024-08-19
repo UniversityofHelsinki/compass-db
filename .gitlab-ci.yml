@@ -50,12 +50,15 @@ deploy_azure:
     - apk add --update gettext git
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@version.helsinki.fi/tike-ohtu/compass-configurations.git
   script:
-    - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-    - az group create --name Self-Reflection-Compass --location northeurope
-    - cd compass-configurations
-    - envsubst < compass-azure-multi-container.yaml > output.yaml
-    - cat output.yaml
-    # Delete the existing container group (if exists)
-    - az container delete --name compass-container-group --resource-group Self-Reflection-Compass --yes
-    # Create a new container group
-    - az container create --resource-group Self-Reflection-Compass --file output.yaml
+  - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
+  - az group create --name Self-Reflection-Compass --location northeurope
+  - cd compass-configurations
+  - envsubst < compass-azure-multi-container.yaml > output.yaml
+  # Delete the existing container group (if exists)
+  - az container delete --name compass-container-group --resource-group Self-Reflection-Compass --yes
+  # Create a network profile
+  - az network profile create --name compassNetworkProfile --resource-group Self-Reflection-Compass --location northeurope --vnet self-reflection-compass-appVnet --subnet self-reflection-compass-appSubnet
+  # Get the ID of the network profile
+  - networkProfileId=$(az network profile show --name compassNetworkProfile --resource-group Self-Reflection-Compass --query id --out tsv)
+  # Create a new container group with the network profile
+  - az container create --resource-group Self-Reflection-Compass --file output.yaml --network-profile $networkProfileId

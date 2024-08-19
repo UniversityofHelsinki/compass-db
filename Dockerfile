@@ -1,13 +1,19 @@
-FROM node:16-alpine
-RUN apk update && apk upgrade && apk add --no-cache tzdata
-RUN adduser node root
-COPY . /home/node/app
-RUN chmod -R 755 /home/node/app
-RUN chown -R node:node /home/node/app
-WORKDIR /home/node/app
+# Use the Node.js Alpine image from the Dockerhub
+FROM node:alpine
 
-# EXPOSE PORT 8080
-EXPOSE 8080
+# Set app directory
+WORKDIR /usr/src/app
 
-# START APPLICATION
+# Install your app dependencies
+# Use wildcard to ensure both package.json AND package-lock.json are considered
+COPY package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Your app runs on port 8000
+EXPOSE 8000
+
+# Start the application
 CMD [ "npm", "start" ]

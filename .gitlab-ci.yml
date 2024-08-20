@@ -35,9 +35,9 @@ build_image:
     - echo "Building image..."
     - docker build -t compass-db .
     - echo "Tagging main image..."
-    - docker tag compass-db quay.io/tike/compass-db:main
+    - docker tag compass-db quay.io/tike/compass-db:test
     - echo "Pushing main image..."
-    - docker push quay.io/tike/compass-db:main
+    - docker push quay.io/tike/compass-db:test
 
 deploy_azure:
   tags:
@@ -55,6 +55,6 @@ deploy_azure:
     - cd compass-configurations
     - envsubst < compass-azure-multi-container.yaml > output.yaml
     # Delete the existing container group (if exists)
-    - az container delete --name compass-container-group --resource-group Self-Reflection-Compass --yes
+    - az container delete --name compass-container-group-test --resource-group Self-Reflection-Compass --yes
     # Create a new container group
     - az container create --resource-group Self-Reflection-Compass --file output.yaml

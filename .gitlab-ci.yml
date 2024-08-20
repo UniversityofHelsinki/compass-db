@@ -57,5 +57,4 @@ deploy_azure:
     # Delete the existing container group (if exists)
     - az container delete --name compass-container-group --resource-group Self-Reflection-Compass --yes
     # Create a new container group
-    - az container create --resource-group Self-Reflection-Compass --vnet self-reflection-compass-appVnet --subnet self-reflection-compass-appSubnet --file output.yaml
-    - az network vnet show --name self-reflection-compass-appVnet --resource-group Self-Reflection-Compass --out jsonc
+    - az container create --resource-group Self-Reflection-Compass --file output.yaml

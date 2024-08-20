@@ -47,7 +47,7 @@ deploy_azure:
   image: mcr.microsoft.com/azure-cli
   before_script:
     - apk update
-    - apk add --update gettext git
+    - apk add --update gettext git curl
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@version.helsinki.fi/tike-ohtu/compass-configurations.git
   script:
     - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID

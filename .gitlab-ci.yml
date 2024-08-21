@@ -57,4 +57,4 @@ deploy_azure:
     # Delete the existing container group (if exists)
     - az container delete --name compass-container-group-test --resource-group Self-Reflection-Compass --yes
     # Create a new container group
-    - az container create --resource-group Self-Reflection-Compass --file output.yaml
+    - az container create --resource-group Self-Reflection-Compass --file output.yaml --command-line init.sh

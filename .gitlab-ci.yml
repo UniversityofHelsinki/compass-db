@@ -27,6 +27,8 @@ services:
 
 build_image:
   stage: build
+  only:
+    - main
   tags:
     - ohtu-build-4
   script:
@@ -43,6 +45,8 @@ deploy_azure:
   tags:
     - ohtu-build-4
   stage: deploy
+  only:
+    - main
   when: manual
   image: mcr.microsoft.com/azure-cli
   before_script:

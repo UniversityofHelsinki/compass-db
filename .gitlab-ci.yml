@@ -59,7 +59,7 @@ deploy_azure:
     - cd compass-configurations
     - envsubst < shibboleth-compass-azure-multi-container.yaml > output.yaml
     # Delete the existing container group (if exists)
-    - az container delete --name compass-container-group-test --resource-group Self-Reflection-Compass --yes
+    #- az container delete --name compass-container-group-test --resource-group Self-Reflection-Compass --yes
     # Create a new container group
     - az container create --resource-group Self-Reflection-Compass --file output.yaml
 

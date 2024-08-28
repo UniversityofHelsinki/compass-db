@@ -37,9 +37,9 @@ build_image:
     - echo "Building image..."
     - docker build -t compass-db .
     - echo "Tagging main image..."
-    - docker tag compass-db quay.io/tike/compass-db:test
+    - docker tag compass-db quay.io/tike/compass-db:latest
     - echo "Pushing main image..."
-    - docker push quay.io/tike/compass-db:test
+    - docker push quay.io/tike/compass-db:latest
 
 deploy_azure:
   tags:

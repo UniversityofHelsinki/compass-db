@@ -32,6 +32,8 @@ const createTables = fs.readFileSync(path.resolve(__dirname, "./sql/createTables
 
 await database.query(createTables);
 
+console.log("HIT");
+
 // Specify the port to listen on
 const port = 8000;
 

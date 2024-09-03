@@ -51,7 +51,7 @@ deploy_azure:
   image: mcr.microsoft.com/azure-cli:cbl-mariner2.0
   before_script:
     - tdnf makecache
-    - tdnf install -y gettext git curl
+    - tdnf install -y gettext git
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@version.helsinki.fi/tike-ohtu/compass-configurations.git
   script:
     - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID

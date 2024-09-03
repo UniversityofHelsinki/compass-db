@@ -1,7 +1,9 @@
-const winston = require('winston');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+import winston from 'winston';
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const logsDir = process.env.LOGS_DIR || 'logs';
 
@@ -32,7 +34,7 @@ const transports = [
     })
 ];
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
         winston.format.timestamp(),
@@ -41,7 +43,7 @@ const logger = winston.createLogger({
     transports: transports
 });
 
-const errorLogger = winston.createLogger({
+export const errorLogger = winston.createLogger({
     level: 'error',
     format: winston.format.combine(
         winston.format.timestamp(),
@@ -55,4 +57,7 @@ const errorLogger = winston.createLogger({
     ]
 });
 
-module.exports = { logger, errorLogger };
+export default {
+    logger: logger,
+    errorLogger: errorLogger
+};

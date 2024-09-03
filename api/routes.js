@@ -1,6 +1,8 @@
+import {logger} from "../logger.js";
+
 const router = (router) => {
     router.get('/hello', (req, res) => {
-        console.log('hello from db');
+        logger.info('hello from db');
         res.json({message: 'Hello, world!'});
     });
 };

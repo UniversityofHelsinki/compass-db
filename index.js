@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import compression from "compression";
 import routes from './api/routes.js';
-import { logger } from './logger.js';
+import {logger} from "./logger.js";
 
 const app = express();
 const router = express.Router();
@@ -17,7 +17,7 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const ipaddress = process.env.AZURE_NODEJS_IP || '127.0.0.1';
+const ipaddress = process.env.AZURE_NODEJS_IP || 'localhost';
 
 app.use(compression());
 app.use(helmet());

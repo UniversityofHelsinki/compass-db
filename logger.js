@@ -10,7 +10,3 @@ export const logger = winston.createLogger({
         new winston.transports.Console()
     ]
 });
-
-export default {
-    logger: logger
-};

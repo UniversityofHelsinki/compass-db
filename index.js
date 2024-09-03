@@ -41,6 +41,7 @@ routes(router);
 
 // Start the server
 app.listen(port, ipaddress, () => {
+    console.log(`Node.js HTTP server is running on port ${port} and ip address ${ipaddress}`)
     logger.info(`Node.js HTTP server is running on port ${port} and ip address ${ipaddress}`);
     errorLogger.error('This is an error message for demonstration for db project.');
 });

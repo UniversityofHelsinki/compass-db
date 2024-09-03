@@ -18,7 +18,6 @@ export const query = async (text, values) => {
         } else if (results?.rowCount > 1) {
             return results.rows;
         }
-        console.log(results);
         return results;
     } catch (error) {
         console.error(error.message);

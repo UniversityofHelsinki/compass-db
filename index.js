@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import compression from "compression";
 import routes from './api/routes.js';
+const { logger, errorLogger } = require('./logger');
 
 const app = express();
 const router = express.Router();
@@ -40,5 +41,6 @@ routes(router);
 
 // Start the server
 app.listen(port, ipaddress, () => {
-    console.log(`Node.js HTTP server is running on port ${port} and ip address ${ipaddress}`);
+    logger.info(`Node.js HTTP server is running on port ${port} and ip address ${ipaddress}`);
+    errorLogger.error('This is an error message for demonstration for db project.');
 });

@@ -48,10 +48,10 @@ deploy_azure:
   only:
     - main
   when: manual
-  image: mcr.microsoft.com/azure-cli
+  image: mcr.microsoft.com/azure-cli:cbl-mariner2.0
   before_script:
-    - apk update
-    - apk add --update gettext git curl
+    - tdnf makecache
+    - tdnf install -y gettext git curl
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@version.helsinki.fi/tike-ohtu/compass-configurations.git
   script:
     - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID

@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import compression from "compression";
 import routes from './api/routes.js';
-const { logger, errorLogger } = require('./logger');
+import { logger, errorLogger } from './logger';
 
 const app = express();
 const router = express.Router();

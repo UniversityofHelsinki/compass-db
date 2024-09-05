@@ -1,7 +1,6 @@
-const dbApi = require('../api/dbApi.js');
+const dbApi = require ("../api/dbApi.js");
 
-
-exports.insertanswer = async (req, res) => {
+ exports.insertanswer = async (req, res) => {
     try {
         let answer = req.body;
         await dbApi.insertanswer(answer);
@@ -10,4 +9,4 @@ exports.insertanswer = async (req, res) => {
         logger.error(`error inserting answer`);
         throw error;
     }
-};
+}

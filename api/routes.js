@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const answers = require("../services/answers.js");
 
-const router = (router) => {
+module.exports = (router) => {
     router.get('/hello', (req, res) => {
         res.json({message: 'Hello, world!'});
     });
@@ -13,5 +15,3 @@ const router = (router) => {
         res.json([{message: 'Answer stored!'}]);
     });*/
 };
-
-export default router;

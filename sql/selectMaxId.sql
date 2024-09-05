@@ -1,1 +1,1 @@
-SELECT MAX(id) +1 FROM public.answers;
+SELECT MAX(id) +1 as max_value FROM public.answers;

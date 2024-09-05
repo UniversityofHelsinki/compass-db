@@ -14,9 +14,6 @@ const { logger, errorLogger } = require ( './logger.js');
 const app = express();
 const router = express.Router();
 
-//const __filename = fileURLToPath(import.meta.url);
-//const __dirname = dirname(__filename);
-
 const ipaddress = process.env.AZURE_NODEJS_IP || '127.0.0.1';
 
 app.use(compression());

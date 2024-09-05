@@ -1,0 +1,1 @@
+INSERT INTO answers (id, created, first_answer, second_answer, multiple_choice_answer) VALUES($1, $2, $3, $4, $5) RETURNING *

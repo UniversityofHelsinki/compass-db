@@ -1,7 +1,9 @@
-CREATE TABLE IF NOT EXISTS compassdb(
+CREATE TABLE IF NOT EXISTS answers(
     id integer UNIQUE NOT NULL,
-    information VARCHAR(255),
     created TIMESTAMP,
+    first_answer VARCHAR(255),
+    second_answer VARCHAR(255),
+    multiple_choice_answer int,
     PRIMARY KEY(id)
     );
 

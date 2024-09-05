@@ -1,0 +1,1 @@
+SELECT MAX(id) +1 FROM public.answers;

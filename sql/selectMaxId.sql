@@ -1,1 +1,1 @@
-SELECT MAX(id) +1 as max_value FROM public.answers;
+SELECT COALESCE(MAX(id), 0) + 1 as max_value FROM public.answers;

@@ -4,7 +4,7 @@ const dbApi = require ("../api/dbApi.js");
     try {
         let answer = req.body;
         await dbApi.insertanswer(answer);
-        res.json([{message: 'Answer stored!'}]);
+        res.json([{message: 'Answer stored'}]);
     } catch (error) {
         logger.error(`error inserting answer`);
         throw error;

@@ -28,7 +28,7 @@ database.query('SELECT NOW()', (err, res) => {
 
 const createTables = fs.readFileSync(path.resolve(__dirname, "./sql/createTables.sql"), "utf8");
 
-await database.query(createTables);
+database.query(createTables);
 
 // Specify the port to listen on
 const port = 8000;

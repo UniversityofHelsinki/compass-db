@@ -1,7 +1,4 @@
-import {logger} from "../logger.js";
-
-const router = (router) => {
-require('dotenv').config();
+const {logger} = require("../logger");
 
 const answers = require("../services/answers.js");
 

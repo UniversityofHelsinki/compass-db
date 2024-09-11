@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS answers(
-    id integer UNIQUE NOT NULL,
-    created TIMESTAMP,
-    first_answer VARCHAR(255),
-    second_answer VARCHAR(255),
-    multiple_choice_answer int,
+    ID integer UNIQUE NOT NULL,
+    STUDENTID VARCHAR(50),
+    TIMESTAMP TIMESTAMP,
+    TOPIC_ANSWER VARCHAR(255),
+    DESCRIPTION_ANSWER VARCHAR(255),
+    MULTIPLE_CHOICE_ANSWER int,
     PRIMARY KEY(id)
     );
-

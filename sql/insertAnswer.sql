@@ -1,1 +1,1 @@
-INSERT INTO answers (id, created, first_answer, second_answer, multiple_choice_answer) VALUES($1, $2, $3, $4, $5) RETURNING *
+INSERT INTO answers (ID, STUDENTID, TIMESTAMP, TOPIC_ANSWER, DESCRIPTION_ANSWER, MULTIPLE_CHOICE_ANSWER) VALUES($1, $2, $3, $4, $5, $6) RETURNING *

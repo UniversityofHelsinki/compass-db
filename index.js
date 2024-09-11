@@ -1,23 +1,20 @@
-import 'dotenv/config';
-import express from 'express';
-import database from "./services/database.js";
-import { fileURLToPath } from 'url';
-import * as path from "node:path";
-import { dirname } from 'path';
-import fs from "fs";
-import bodyParser from "body-parser";
-import helmet from "helmet";
-import compression from "compression";
-import routes from './api/routes.js';
-import {logger} from "./logger.js";
+require('dotenv').config();
+const express = require ('express');
+const database = require ( "./services/database.js");
+const { fileURLToPath } = require ( 'url');
+const path = require('node:path');
+const { dirname } = require ( 'path');
+const fs = require ( "fs");
+const bodyParser = require ( "body-parser");
+const helmet = require ( "helmet");
+const compression = require ( "compression");
+const routes = require ( './api/routes.js');
+const { logger, errorLogger } = require ( './logger.js');
 
 const app = express();
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const ipaddress = process.env.AZURE_NODEJS_IP || 'localhost';
+const ipaddress = process.env.AZURE_NODEJS_IP || '127.0.0.1';
 
 app.use(compression());
 app.use(helmet());
@@ -31,7 +28,7 @@ database.query('SELECT NOW()', (err, res) => {
 
 const createTables = fs.readFileSync(path.resolve(__dirname, "./sql/createTables.sql"), "utf8");
 
-await database.query(createTables);
+database.query(createTables);
 
 // Specify the port to listen on
 const port = 8000;

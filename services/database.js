@@ -1,5 +1,5 @@
 // Postgres client setup
-import Pool from 'pg-pool';
+const Pool = require ("pg-pool");
 
 const pool = new Pool({
     user: process.env.PGUSER,
@@ -10,7 +10,7 @@ const pool = new Pool({
     ssl: process.env.SSL ? true : false
 })
 
-export const query = async (text, values) => {
+exports.query = async (text, values) => {
     try {
         const results = await pool.query(text, values);
         if (results?.rowCount === 1) {
@@ -26,8 +26,4 @@ export const query = async (text, values) => {
             { cause: error }
         );
     }
-};
-
-export default {
-    query
 };

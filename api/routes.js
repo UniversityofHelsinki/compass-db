@@ -1,10 +1,11 @@
-import {logger} from "../logger.js";
+const {logger} = require("../logger");
 
-const router = (router) => {
+const answers = require("../services/answers.js");
+
+module.exports = (router) => {
     router.get('/hello', (req, res) => {
         logger.info('hello world');
         res.json({message: 'Hello, world!'});
     });
+    router.post('/saveanswer', answers.insertanswer);
 };
-
-export default router;

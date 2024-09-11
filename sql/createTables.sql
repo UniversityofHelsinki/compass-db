@@ -1,19 +1,14 @@
-CREATE TABLE IF NOT EXISTS compassdb(
-    id integer UNIQUE NOT NULL,
-    information VARCHAR(255),
+-- creates answers table
+CREATE TABLE IF NOT EXISTS ANSWERS(
+    id SERIAL,
+    studentid VARCHAR(50),
     created TIMESTAMP,
+    topic_answer VARCHAR(255),
+    description_answer VARCHAR(255),
+    multiple_choice_answer int,
     PRIMARY KEY(id)
     );
 
-CREATE TABLE IF NOT EXISTS answers(
-    ID integer UNIQUE NOT NULL,
-    STUDENTID VARCHAR(50),
-    TIMESTAMP TIMESTAMP,
-    TOPIC_ANSWER VARCHAR(255),
-    DESCRIPTION_ANSWER VARCHAR(255),
-    MULTIPLE_CHOICE_ANSWER int,
-    PRIMARY KEY(id)
-    );
 --database creation clauses
 -- creates student, teacher, course, student to course relation table and
 CREATE TABLE IF NOT EXISTS STUDENT (

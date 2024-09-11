@@ -28,7 +28,7 @@ database.query('SELECT NOW()', (err, res) => {
 
 const createTables = fs.readFileSync(path.resolve(__dirname, "./sql/createTables.sql"), "utf8");
 
-database.query(createTables);
+await database.query(createTables);
 
 // Specify the port to listen on
 const port = 8000;
@@ -39,5 +39,4 @@ routes(router);
 // Start the server
 app.listen(port, ipaddress, () => {
     logger.info(`Node.js HTTP server is running on port ${port} and ip address ${ipaddress}`);
-    errorLogger.error('This is an error message for demonstration for db project.');
 });

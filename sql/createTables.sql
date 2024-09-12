@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS ANSWERS(
     id SERIAL,
     studentid VARCHAR(50),
+    course_id integer REFERENCES COURSE (id),
     created TIMESTAMP,
     topic_answer VARCHAR(255),
     description_answer VARCHAR(255),
@@ -38,6 +39,13 @@ CREATE TABLE  IF NOT EXISTS STUDENT_COURSE (
     student varchar (8) references STUDENT (user_id),
     course integer references COURSE(id)
     );
+
+CREATE TABLE IF NOT EXISTS STUDENT_ANSWERS (
+  user_id varchar (8),
+  id integer,
+  foreign key (user_id) references STUDENT(user_id),
+  foreign key (id) references ANSWERS(id)
+);
 
 Create SEQUENCE IF NOT EXISTS COURSE_SEQ;
 

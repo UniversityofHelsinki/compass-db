@@ -40,13 +40,6 @@ CREATE TABLE  IF NOT EXISTS STUDENT_COURSE (
     course integer references COURSE(id)
     );
 
-CREATE TABLE IF NOT EXISTS STUDENT_ANSWERS (
-  user_id varchar (8),
-  id integer,
-  foreign key (user_id) references STUDENT(user_id),
-  foreign key (id) references ANSWERS(id)
-);
-
 Create SEQUENCE IF NOT EXISTS COURSE_SEQ;
 
 

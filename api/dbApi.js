@@ -39,7 +39,7 @@ exports.addstudenttocourse = async (student) => {
 exports.isstudentincourse = async (student) => {
     try {
         const isStudentInCourseSQL = fs.readFileSync(path.resolve(__dirname, "../sql/isStudentInCourse.sql"), "utf8");
-        const result = await database.query(isStudentInCourseSQL, [student.user_id]);
+        const result = await database.query(isStudentInCourseSQL, [student.user_id, student.course_id]);
         return result.length > 0;
     } catch (err) {
         logger.error(`Error checking if student is in course : ${err} `);

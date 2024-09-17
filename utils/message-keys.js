@@ -8,6 +8,9 @@ const ERROR_MESSAGE_FAILED_TO_ADD_STUDENT_TO_COURSE = 'error-failed-to-add-stude
 const STUDENT_IS_IN_COURSE = 'student-is-in-course';
 const STUDENT_NOT_IN_COURSE = ' student-not-in-course';
 const ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE = 'error-student-checking-in-course';
+const STUDENT_EXIST = 'student-is-in-database';
+const STUDENT_NOT_EXIST = 'error-student-not-in-database';
+const ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE = 'error-student-checking-in-database';
 
 module.exports = {
     ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER,
@@ -18,5 +21,8 @@ module.exports = {
     ERROR_MESSAGE_FAILED_TO_ADD_STUDENT_TO_COURSE,
     STUDENT_IS_IN_COURSE,
     STUDENT_NOT_IN_COURSE,
-    ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE
+    ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE,
+    STUDENT_EXIST,
+    STUDENT_NOT_EXIST,
+    ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE
 };

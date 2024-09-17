@@ -61,3 +61,26 @@ exports.isstudentincourse = async (req, res) => {
     }
 
 }
+
+exports.studentExist = async (req, res) => {
+    try {
+        let student = req.body;
+        let student_found_in_course = await dbApi.studentExist(student);
+        if (student_found_in_course) {
+            logger.info(`Student found`)
+            res.json([{message: messageKeys.STUDENT_EXIST}]);
+        } else {
+            logger.info(`Student not found`)
+            res.json([{message: messageKeys.STUDENT_NOT_EXIST}]);
+        }
+    } catch (error) {
+        logger.error(`error checking student in the database`);
+        const msg = error.message;
+        logger.error(`Error GET /studentExist ${error} ${msg}  USER ${req.user.eppn}`);
+        res.status(500);
+        return res.json([{
+            message: messageKeys.ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE
+        }]);
+    }
+
+}

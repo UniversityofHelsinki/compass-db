@@ -12,5 +12,5 @@ module.exports = (router) => {
     router.get('/isstudentincourse', students.isstudentincourse);
     router.post('/addstudenttocourse', students.addstudenttocourse);
     router.post('/addstudent', students.addstudent);
-
+    router.get('/studentExist', students.studentExist);
 };

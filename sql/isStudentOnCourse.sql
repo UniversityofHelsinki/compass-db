@@ -1,0 +1,1 @@
+SELECT student, course FROM student_course where student = $1

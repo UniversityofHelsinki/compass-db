@@ -1,8 +1,6 @@
 const fs = require ("fs");
 const path = require ("path");
-const database = require ("../services/database.js");
-const {logger, logger} = require("../logger");
-const fs = require("fs");
+const {logger} = require("../logger");
 const database = require("../services/database");
 
 exports.insertanswer = async (answer) => {

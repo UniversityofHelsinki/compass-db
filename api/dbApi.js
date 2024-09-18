@@ -14,20 +14,20 @@ exports.insertanswer = async (answer) => {
     }
 }
 
-exports.addstudent = async (student) => {
+exports.addstudent = async (user_id) => {
     try {
         const insertStudentSQL = fs.readFileSync(path.resolve(__dirname, "../sql/addStudent.sql"), "utf8");
-        await database.query(insertStudentSQL,[student.user_id, new Date()]);
+        await database.query(insertStudentSQL,[user_id, new Date()]);
     } catch (err) {
         logger.error(`Error inserting student : ${err} `);
         throw err;
     }
 }
 
-exports.addstudenttocourse = async (student) => {
+exports.addstudenttocourse = async (user_id, course_id) => {
     try {
         const insertStudentToCourseSQL = fs.readFileSync(path.resolve(__dirname, "../sql/addStudentToCourse.sql"), "utf8");
-        await database.query(insertStudentToCourseSQL,[student.user_id, student.course_id]);
+        await database.query(insertStudentToCourseSQL,[user_id, course_id]);
     } catch (err) {
         logger.error(`Error inserting student to course : ${err} `);
         throw err;

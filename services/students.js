@@ -6,8 +6,8 @@ const res = require("express/lib/response");
 
 exports.addstudent = async (req, res) => {
     try {
-        let student = req.body;
-        await dbApi.addstudent(student);
+        let user_id = req.user.eppn;
+        await dbApi.addstudent(user_id);
         logger.info(`Student added`)
         res.json([{message: messageKeys.STUDENT_ADDED}]);
     } catch (error) {
@@ -23,8 +23,9 @@ exports.addstudent = async (req, res) => {
 
 exports.addstudenttocourse = async (req, res) => {
     try {
-        let student = req.body;
-        await dbApi.addstudenttocourse(student);
+        let user_id = req.user.eppn;
+        let course_id = req.params.course_id;
+        await dbApi.addstudenttocourse(user_id, course_id);
         logger.info(`Student added to course`)
         res.json([{message: messageKeys.STUDENT_ADDED_TO_COURSE}]);
     } catch (error) {

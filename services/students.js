@@ -36,13 +36,13 @@ exports.addstudenttocourse = async (req, res) => {
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_STUDENT_TO_COURSE
         }]);
     }
-
 }
 
 exports.isstudentincourse = async (req, res) => {
     try {
-        let student = req.body;
-        let student_found_in_course = await dbApi.isstudentincourse(student);
+        let user_id = req.user.eppn;
+        let course_id = req.params.course_id;
+        let student_found_in_course = await dbApi.isstudentincourse(user_id, course_id);
         if (student_found_in_course) {
             logger.info(`Student found in the course`)
             res.json([{message: messageKeys.STUDENT_IS_IN_COURSE}]);
@@ -64,8 +64,8 @@ exports.isstudentincourse = async (req, res) => {
 
 exports.studentExist = async (req, res) => {
     try {
-        let student = req.body;
-        let student_found_in_course = await dbApi.studentExist(student);
+        let user_id = req.user.eppn;
+        let student_found_in_course = await dbApi.studentExist(user_id);
         if (student_found_in_course) {
             logger.info(`Student found`)
             res.json([{message: messageKeys.STUDENT_EXIST}]);

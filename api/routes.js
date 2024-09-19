@@ -9,8 +9,8 @@ module.exports = (router) => {
         res.json({message: 'Hello, world!'});
     });
     router.post('/saveanswer', answers.insertanswer);
-    router.get('/isstudentincourse', students.isstudentincourse);
+    router.get('/isstudentincourse/:course_id/:student_id', students.isstudentincourse);
     router.post('/addstudenttocourse', students.addstudenttocourse);
     router.post('/addstudent', students.addstudent);
-    router.get('/studentExist', students.studentExist);
+    router.get('/studentExist/:student_id', students.studentExist);
 };

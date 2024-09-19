@@ -6,7 +6,8 @@ const res = require("express/lib/response");
 
 exports.addstudent = async (req, res) => {
     try {
-        let user_id = req.user.eppn;
+        let user = req.body;
+        let user_id = user.user_id;
         await dbApi.addstudent(user_id);
         logger.info(`Student added`)
         res.json([{message: messageKeys.STUDENT_ADDED}]);
@@ -23,8 +24,9 @@ exports.addstudent = async (req, res) => {
 
 exports.addstudenttocourse = async (req, res) => {
     try {
-        let user_id = req.user.eppn;
-        let course_id = req.params.course_id;
+        let body = req.body;
+        let user_id = body.user_id;
+        let course_id = body.course_id;
         await dbApi.addstudenttocourse(user_id, course_id);
         logger.info(`Student added to course`)
         res.json([{message: messageKeys.STUDENT_ADDED_TO_COURSE}]);
@@ -41,7 +43,7 @@ exports.addstudenttocourse = async (req, res) => {
 
 exports.isstudentincourse = async (req, res) => {
     try {
-        let user_id = req.user.eppn;
+        let user_id = req.params.student_id;
         let course_id = req.params.course_id;
         let student_found_in_course = await dbApi.isstudentincourse(user_id, course_id);
         if (student_found_in_course) {
@@ -54,7 +56,7 @@ exports.isstudentincourse = async (req, res) => {
     } catch (error) {
         logger.error(`error checking student in the course`);
         const msg = error.message;
-        logger.error(`Error GET /isstudentincourse ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error GET /isstudentincourse ${error} ${msg}  USER ${req.params.student_id}`);
         res.status(500);
         return res.json([{
             message: messageKeys.ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE
@@ -65,7 +67,7 @@ exports.isstudentincourse = async (req, res) => {
 
 exports.studentExist = async (req, res) => {
     try {
-        let user_id = req.user.eppn;
+        let user_id = req.params.student_id;
         let student_found_in_course = await dbApi.studentExist(user_id);
         if (student_found_in_course) {
             logger.info(`Student found`)
@@ -77,7 +79,7 @@ exports.studentExist = async (req, res) => {
     } catch (error) {
         logger.error(`error checking student in the database`);
         const msg = error.message;
-        logger.error(`Error GET /studentExist ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error GET /studentExist ${error} ${msg}  USER ${req.params.student_id}`);
         res.status(500);
         return res.json([{
             message: messageKeys.ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE

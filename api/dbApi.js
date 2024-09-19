@@ -36,9 +36,10 @@ exports.addstudenttocourse = async (user_id, course_id) => {
 
 exports.isstudentincourse = async (user_id, course_id) => {
     try {
+        let course_id_int = parseInt(course_id);
         const isStudentInCourseSQL = fs.readFileSync(path.resolve(__dirname, "../sql/isStudentInCourse.sql"), "utf8");
-        const result = await database.query(isStudentInCourseSQL, [user_id, course_id]);
-        return result.length > 0;
+        const result = await database.query(isStudentInCourseSQL, [user_id, course_id_int]);
+        return result?.student === user_id && result?.course === course_id_int;
     } catch (err) {
         logger.error(`Error checking if student is in course : ${err} `);
         throw err;
@@ -49,7 +50,7 @@ exports.studentExist = async (user_id) => {
     try {
         const studentExistSQL = fs.readFileSync(path.resolve(__dirname, "../sql/studentExist.sql"), "utf8");
         const result = await database.query(studentExistSQL, [user_id]);
-        return result.length > 0;
+        return result?.user_id === user_id;
     } catch (err) {
         logger.error(`Error checking if student is in database : ${err} `);
         throw err;

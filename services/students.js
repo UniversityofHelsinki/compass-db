@@ -14,7 +14,7 @@ exports.addstudent = async (req, res) => {
     } catch (error) {
         logger.error(`error inserting student`);
         const msg = error.message;
-        logger.error(`Error POST /addstudent ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error POST /addstudent ${error} ${msg}  USER ${req.body.user_id}`);
         res.status(500);
         return res.json([{
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_STUDENT
@@ -33,7 +33,7 @@ exports.addstudenttocourse = async (req, res) => {
     } catch (error) {
         logger.error(`error inserting student to course`);
         const msg = error.message;
-        logger.error(`Error POST /addstudenttocourse ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error POST /addstudenttocourse ${error} ${msg}  USER ${req.body.user_id} COURSE ${req.body.course_id}`);
         res.status(500);
         return res.json([{
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_STUDENT_TO_COURSE

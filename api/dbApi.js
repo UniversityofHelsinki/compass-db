@@ -7,7 +7,7 @@ exports.insertanswer = async (answer) => {
     try {
         const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertAnswer.sql"), "utf8");
         await database.query(insertAnswerSQL,
-            [answer.studentid, new Date(), answer.topic_answer, answer.description_answer, parseInt(answer.multiple_choice_answer)]);
+            [answer.studentid, answer.courseid, new Date(), answer.topic_answer, answer.description_answer, parseInt(answer.multiple_choice_answer)]);
     } catch (err) {
         logger.error(`Error inserting answer : ${err} `);
         throw err;

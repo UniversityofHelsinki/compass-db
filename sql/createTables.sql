@@ -1,8 +1,7 @@
--- creates answers table
 CREATE TABLE IF NOT EXISTS TEACHER (
-   user_id VARCHAR(8) NOT NULL UNIQUE,
-   created TIMESTAMP,
-   PRIMARY KEY(user_id)
+  user_id VARCHAR(8) NOT NULL UNIQUE,
+  created TIMESTAMP,
+  PRIMARY KEY(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS COURSE (
@@ -18,29 +17,33 @@ CREATE TABLE IF NOT EXISTS COURSE (
 );
 
 CREATE TABLE IF NOT EXISTS ANSWERS(
-    id SERIAL,
-    studentid VARCHAR(50),
-    course_id integer REFERENCES COURSE (id),
-    created TIMESTAMP,
-    topic_answer VARCHAR(255),
-    description_answer VARCHAR(255),
-    multiple_choice_answer int,
-    PRIMARY KEY(id)
-    );
+  id SERIAL,
+  studentid VARCHAR(50),
+  course_id integer REFERENCES COURSE (id),
+  created TIMESTAMP,
+  topic_answer VARCHAR(255),
+  description_answer VARCHAR(255),
+  multiple_choice_answer int,
+  PRIMARY KEY(id)
+);
 
---database creation clauses
--- creates student, teacher, course, student to course relation table and
 CREATE TABLE IF NOT EXISTS STUDENT (
-    user_id VARCHAR(8) NOT NULL unique not null,
-    created TIMESTAMP,
-    PRIMARY KEY(user_id)
-    );
+  user_id VARCHAR(8) NOT NULL unique,
+  created TIMESTAMP,
+  PRIMARY KEY(user_id)
+);
+
 
 CREATE TABLE  IF NOT EXISTS STUDENT_COURSE (
-    student varchar (8) references STUDENT (user_id),
-    course integer references COURSE(id)
-    );
+  student varchar (8) references STUDENT (user_id),
+  course integer references COURSE(id)
+);
 
-Create SEQUENCE IF NOT EXISTS COURSE_SEQ;
+CREATE SEQUENCE IF NOT EXISTS COURSE_SEQ;
 
-
+CREATE TABLE IF NOT EXISTS ASSIGNMENT (
+  course INTEGER REFERENCES COURSE(id),
+  answer INTEGER REFERENCES ANSWERS(id),
+  start_date TIMESTAMP,
+  end_date TIMESTAMP
+);

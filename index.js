@@ -14,7 +14,7 @@ const { logger, errorLogger } = require ( './logger.js');
 const app = express();
 const router = express.Router();
 
-const ipaddress = process.env.AZURE_NODEJS_IP || '127.0.0.1';
+const ipaddress = process.env.AZURE_NODEJS_IP || 'localhost';
 
 app.use(compression());
 app.use(helmet());

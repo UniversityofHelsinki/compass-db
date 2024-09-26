@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS COURSE (
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     id SERIAL,
     assignment_id integer NOT NULL unique,
-    course_id integer REFERENCES COURSE (course_id),
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
     topic varchar(255),
     start_date TIMESTAMP,
     end_date TIMESTAMP,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS QUESTION(
 CREATE TABLE IF NOT EXISTS ANSWERS(
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
-    course_id integer REFERENCES COURSE (course_id),
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
     user_id VARCHAR(50),
     value VARCHAR(255),
     order_nbr integer,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS ANSWERS(
 CREATE TABLE IF NOT EXISTS FEEDBACK(
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
-    course_id integer REFERENCES COURSE (course_id),
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
     language VARCHAR(20),
     order_nbr integer,
     value VARCHAR(255),

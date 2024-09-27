@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS COURSE (
     id serial,
-    course_id VARCHAR(255) NOT NULL unique,
-    user_id VARCHAR(50),
+    course_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(50)  NOT NULL,
     title VARCHAR(255),
     description VARCHAR(255),
     start_date date,

@@ -1,7 +1,17 @@
+CREATE TABLE IF NOT EXISTS USERS (
+    id serial,
+    user_name VARCHAR(50) NOT NULL,
+    created TIMESTAMP,
+    PRIMARY KEY(id)
+);
+CREATE TABLE IF NOT EXISTS USER_ROLE (
+    user_id integer REFERENCES USERS (id),
+    role VARCHAR(50)
+);
 CREATE TABLE IF NOT EXISTS COURSE (
     id serial,
-    course_id VARCHAR(255) NOT NULL,
-    user_id VARCHAR(50)  NOT NULL,
+    course_id VARCHAR(255) NOT NULL UNIQUE,
+    user_id integer,
     title VARCHAR(255),
     description VARCHAR(255),
     start_date date,
@@ -9,7 +19,10 @@ CREATE TABLE IF NOT EXISTS COURSE (
     created TIMESTAMP,
     PRIMARY KEY(id)
 );
-
+CREATE TABLE IF NOT EXISTS USER_COURSE (
+    course_id varchar REFERENCES COURSE (course_id),
+    user_id integer REFERENCES USERS (id)
+);
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     id SERIAL,
     assignment_id integer NOT NULL unique,

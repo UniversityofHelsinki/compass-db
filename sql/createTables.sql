@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS ANSWER (
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
-    user_id VARCHAR(50),
+    user_name VARCHAR(255),
     value VARCHAR(255),
     order_nbr integer,
     created TIMESTAMP,

@@ -1,0 +1,1 @@
+INSERT INTO user_role (USER_ID, ROLE) VALUES($1, $2) RETURNING *

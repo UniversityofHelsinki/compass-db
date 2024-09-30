@@ -1,1 +1,0 @@
-SELECT user_id, created FROM student where user_id = $1

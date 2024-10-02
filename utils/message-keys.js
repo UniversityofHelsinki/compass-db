@@ -11,6 +11,7 @@ const ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE = 'error-student-checking-in-cour
 const STUDENT_EXIST = 'student-is-in-database';
 const STUDENT_NOT_EXIST = 'error-student-not-in-database';
 const ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE = 'error-student-checking-in-database';
+const ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS = 'error-failed-to-get-course-answers'
 
 module.exports = {
     ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER,
@@ -24,5 +25,6 @@ module.exports = {
     ERROR_MESSAGE_STUDENT_CHECKING_IN_COURSE,
     STUDENT_EXIST,
     STUDENT_NOT_EXIST,
-    ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE
+    ERROR_MESSAGE_STUDENT_EXIST_IN_DATABASE,
+    ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS
 };

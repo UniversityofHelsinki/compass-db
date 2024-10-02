@@ -1,49 +1,73 @@
-CREATE TABLE IF NOT EXISTS TEACHER (
-  user_id VARCHAR(8) NOT NULL UNIQUE,
-  created TIMESTAMP,
-  PRIMARY KEY(user_id)
-);
+CREATE TABLE IF NOT EXISTS USERS (
+    id serial,
+    user_name VARCHAR(255) NOT NULL UNIQUE,
+    created TIMESTAMP,
+    PRIMARY KEY(id)
+    );
+
+CREATE TABLE IF NOT EXISTS USER_ROLE (
+    user_id integer REFERENCES USERS (id),
+    role VARCHAR(50)
+    );
 
 CREATE TABLE IF NOT EXISTS COURSE (
-  id integer UNIQUE NOT NULL,
-  course_id VARCHAR(255),
-  course_title VARCHAR(255),
-  course_description VARCHAR(255),
-  created TIMESTAMP,
-  start_date date,
-  end_date date,
-  teacher varchar(8) REFERENCES TEACHER (user_id),
-  PRIMARY KEY(id)
-);
+    id serial,
+    course_id VARCHAR(255) NOT NULL UNIQUE,
+    user_name VARCHAR(255),
+    title VARCHAR(255),
+    description VARCHAR(255),
+    start_date date,
+    end_date date,
+    created TIMESTAMP,
+    PRIMARY KEY(id),
+    UNIQUE(course_id)
+    );
 
-CREATE TABLE IF NOT EXISTS ANSWERS(
-  id SERIAL,
-  studentid VARCHAR(50),
-  course_id integer REFERENCES COURSE (id),
-  created TIMESTAMP,
-  topic_answer VARCHAR(255),
-  description_answer VARCHAR(255),
-  multiple_choice_answer int,
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE IF NOT EXISTS STUDENT (
-  user_id VARCHAR(8) NOT NULL unique,
-  created TIMESTAMP,
-  PRIMARY KEY(user_id)
-);
-
-
-CREATE TABLE  IF NOT EXISTS STUDENT_COURSE (
-  student varchar (8) references STUDENT (user_id),
-  course integer references COURSE(id)
-);
-
-CREATE SEQUENCE IF NOT EXISTS COURSE_SEQ;
+CREATE TABLE IF NOT EXISTS USER_COURSE (
+    course_id varchar REFERENCES COURSE (course_id),
+    user_name VARCHAR(255) REFERENCES USERS (user_name)
+    );
 
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
-  course INTEGER REFERENCES COURSE(id),
-  answer INTEGER REFERENCES ANSWERS(id),
-  start_date TIMESTAMP,
-  end_date TIMESTAMP
-);
+    id SERIAL,
+    assignment_id integer NOT NULL UNIQUE,
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
+    topic varchar(255),
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    created TIMESTAMP,
+    PRIMARY KEY(id)
+    );
+
+CREATE TABLE IF NOT EXISTS QUESTION (
+    id SERIAL,
+    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    order_nbr integer,
+    language VARCHAR(20),
+    value VARCHAR(255),
+    created TIMESTAMP,
+    PRIMARY KEY(id)
+    );
+
+CREATE TABLE IF NOT EXISTS ANSWER (
+    id SERIAL,
+    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
+    user_name VARCHAR(255),
+    value VARCHAR(255),
+    order_nbr integer,
+    created TIMESTAMP,
+    edited TIMESTAMP,
+    PRIMARY KEY(id)
+    );
+
+CREATE TABLE IF NOT EXISTS FEEDBACK (
+    id SERIAL,
+    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    course_id VARCHAR(255) REFERENCES COURSE (course_id),
+    language VARCHAR(20),
+    order_nbr integer,
+    value VARCHAR(255),
+    created TIMESTAMP,
+    PRIMARY KEY(id)
+    );

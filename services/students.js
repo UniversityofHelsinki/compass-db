@@ -8,7 +8,7 @@ exports.addstudent = async (req, res) => {
     try {
         let user = req.body;
         let user_id = user.user_id;
-        await dbApi.addstudent(user_id);
+        await dbApi.addUser(user_id);
         logger.info(`Student added`)
         res.json([{message: messageKeys.STUDENT_ADDED}]);
     } catch (error) {
@@ -27,7 +27,7 @@ exports.addstudenttocourse = async (req, res) => {
         let body = req.body;
         let user_id = body.user_id;
         let course_id = body.course_id;
-        await dbApi.addstudenttocourse(user_id, course_id);
+        await dbApi.connectUserToCourse(user_id, course_id);
         logger.info(`Student added to course`)
         res.json([{message: messageKeys.STUDENT_ADDED_TO_COURSE}]);
     } catch (error) {

@@ -13,4 +13,5 @@ module.exports = (router) => {
     router.post('/addstudenttocourse', students.addstudenttocourse);
     router.post('/addstudent', students.addstudent);
     router.get('/studentExist/:student_id', students.studentExist);
+    router.get('/getUserAnswersForCourseId/:course_id', answers.getUserAnswersForCourseId);
 };

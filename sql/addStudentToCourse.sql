@@ -1,1 +1,0 @@
-INSERT INTO student_course (STUDENT, COURSE) VALUES($1, $2) RETURNING *

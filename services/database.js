@@ -1,5 +1,6 @@
 // Postgres client setup
 const Pool = require ("pg-pool");
+const { read } = require("../sql/read");
 
 const pool = new Pool({
     user: process.env.PGUSER,
@@ -10,15 +11,13 @@ const pool = new Pool({
     ssl: process.env.SSL ? true : false
 })
 
-exports.query = async (text, values) => {
+const query = async (text, values) => {
     try {
-        const results = await pool.query(text, values);
-        if (results?.rowCount === 1) {
-            return results.rows[0];
-        } else if (results?.rowCount > 1) {
-            return results.rows;
-        }
-        return results;
+      const results = await pool.query(text, values);
+      if (results?.rowCount > 0) {
+        return results.rows;
+      }
+      return [];
     } catch (error) {
         console.error(error.message);
         throw new Error(
@@ -26,4 +25,20 @@ exports.query = async (text, values) => {
             { cause: error }
         );
     }
+};
+
+exports.query = query;
+
+exports.execute = async (file, values) => {
+  try {
+    const sql = await read(file);
+    const results = await query(sql, values);
+    return results;
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(
+      `Error while reading sql ${file} with values ${values}`,
+      { cause: error }
+    );
+  }
 };

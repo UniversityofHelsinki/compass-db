@@ -77,10 +77,10 @@ exports.getCourseForUser = async (user_id) => {
     }
 }
 
-exports.getUserAnswersForCourseId= async (user_name) => {
+exports.getUserAnswersForCourseId= async (user_name, course_id) => {
     try {
         const getUserAnswersForCourseId = fs.readFileSync(path.resolve(__dirname, "../sql/getUserAnswersForCourseId.sql"), "utf8");
-        return await database.query(getUserAnswersForCourseId, [user_name]);
+        return await database.query(getUserAnswersForCourseId, [user_name, course_id]);
     } catch (err) {
         logger.error(`Error getting course answers for user: ${err} `);
         throw err;

@@ -1,9 +1,6 @@
 const dbApi = require ("../api/dbApi.js");
 const {logger} = require("../logger");
 const messageKeys = require('../utils/message-keys');
-const req = require("express/lib/request");
-const res = require("express/lib/response");
-const {error} = require("winston");
 
  exports.insertanswer = async (req, res) => {
     try {
@@ -24,13 +21,14 @@ const {error} = require("winston");
 
 exports.getUserAnswersForCourseId = async (req, res) => {
      try {
-         const username = req.params.user_name;
-         const courseAnswers = await dbApi.getUserAnswersForCourseId(username);
+         const userName = req.params.user_name;
+         const courseId = req.params.course_id;
+         const courseAnswers = await dbApi.getUserAnswersForCourseId(userName, courseId);
          res.json(courseAnswers);
      } catch (error) {
          logger.error(`error getting course answers for user`);
          const msg = error.message;
-         logger.error(`Error GET /getUserAnswersForCourseId ${error} ${msg} USER ${req.user.eppn}`);
+         logger.error(`Error GET /getUserAnswersForCourseId ${error} ${msg} USER ${req.params.user_name}`);
          res.status(500);
          return res.json([{
              message: messageKeys.ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS

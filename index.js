@@ -10,9 +10,13 @@ const helmet = require ( "helmet");
 const compression = require ( "compression");
 const routes = require ( './api/routes.js');
 const { logger, errorLogger } = require ( './logger.js');
+const teacher = require('./api/routes/teacher.js');
+const student = require('./api/routes/student.js');
 
 const app = express();
 const router = express.Router();
+const teacherRouter = express.Router();
+const studentRouter = express.Router();
 
 const ipaddress = process.env.AZURE_NODEJS_IP || 'localhost';
 
@@ -35,6 +39,11 @@ const port = 8000;
 
 app.use('/api', router);
 routes(router);
+router.use('/teacher', teacherRouter);
+router.use('/student', studentRouter)
+
+teacher(teacherRouter);
+student(studentRouter);
 
 // Start the server
 app.listen(port, ipaddress, () => {

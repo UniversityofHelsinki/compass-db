@@ -1,1 +1,0 @@
-SELECT student, course FROM student_course where student = $1 and course = $2

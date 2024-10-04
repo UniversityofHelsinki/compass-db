@@ -3,13 +3,11 @@ CREATE TABLE IF NOT EXISTS USERS (
     user_name VARCHAR(255) NOT NULL UNIQUE,
     created TIMESTAMP,
     PRIMARY KEY(id)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS USER_ROLE (
     user_id integer REFERENCES USERS (id),
     role VARCHAR(50)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS COURSE (
     id serial,
     course_id VARCHAR(255) NOT NULL UNIQUE,
@@ -19,15 +17,12 @@ CREATE TABLE IF NOT EXISTS COURSE (
     start_date date,
     end_date date,
     created TIMESTAMP,
-    PRIMARY KEY(id),
-    UNIQUE(course_id)
-    );
-
+    PRIMARY KEY(id)
+);
 CREATE TABLE IF NOT EXISTS USER_COURSE (
     course_id varchar REFERENCES COURSE (course_id),
     user_name VARCHAR(255) REFERENCES USERS (user_name)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     id SERIAL,
     assignment_id integer NOT NULL UNIQUE,
@@ -37,8 +32,7 @@ CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     end_date TIMESTAMP,
     created TIMESTAMP,
     PRIMARY KEY(id)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS QUESTION (
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
@@ -47,8 +41,7 @@ CREATE TABLE IF NOT EXISTS QUESTION (
     value VARCHAR(255),
     created TIMESTAMP,
     PRIMARY KEY(id)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS ANSWER (
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
@@ -59,8 +52,7 @@ CREATE TABLE IF NOT EXISTS ANSWER (
     created TIMESTAMP,
     edited TIMESTAMP,
     PRIMARY KEY(id)
-    );
-
+);
 CREATE TABLE IF NOT EXISTS FEEDBACK (
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
@@ -70,4 +62,4 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
     value VARCHAR(255),
     created TIMESTAMP,
     PRIMARY KEY(id)
-    );
+);

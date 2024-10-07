@@ -38,7 +38,8 @@ test:
     - apt-get update
     - apt-get install -y bash
     - npm install
-    - npx wait-on tcp:postgres:5432
+    - echo "Waiting for PostgreSQL to be ready..."
+    - npx wait-on tcp:postgres:5432 --timeout 60000
   variables:
     POSTGRES_DB: ${DATABASE}
     POSTGRES_USER: ${POSTGRES_USER}
@@ -50,7 +51,7 @@ test:
     - npm run coverage
   coverage: /All files\s*\|\s*([\d\.]+)/
   artifacts:
-    name: lataamo-poistamo-coverage
+    name: compass-coverage
     paths:
       - coverage
     expire_in: 1 hour

@@ -33,7 +33,7 @@ beforeEach(async () => {
         '    created TIMESTAMP,\n' +
         '    PRIMARY KEY(id)\n' +
         ');');
-    await client.query('CREATE TABLE IF NOT EXISTS USER_ROLE (\n' +
+    await client.query('CREATE TEMPORARY TABLE IF NOT EXISTS USER_ROLE (\n' +
         '    user_id integer REFERENCES USERS (id),\n' +
         '    role VARCHAR(50)\n' +
         ');')
@@ -41,6 +41,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
     await wait(100);
+    await client.query('DROP TABLE IF EXISTS pg_temp.user_role');
     await client.query('DROP TABLE IF EXISTS pg_temp.users');
 });
 

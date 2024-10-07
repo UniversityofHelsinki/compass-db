@@ -7,11 +7,11 @@ const res = require("express/lib/response");
 exports.adduser = async (req, res) => {
     try {
         let user = req.body;
-        let user_id = user.eppn;
+        let userName = user.eppn;
         let role = user.eduPersonAffiliation;
         let roles = role.split(';');
 
-        let value = await dbApi.adduser(user_id);
+        let value = await dbApi.adduser(userName);
 
         roles.forEach(async (role) => {
             let result = await dbApi.adduserRole(value.id, role);

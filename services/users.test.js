@@ -1,6 +1,15 @@
 const { adduser } = require('../services/users'); // Adjust the path to your `users` module
 const dbApi = require('../api/dbApi'); // Adjust the path to your `dbApi` module
 const logger = require('../logger'); // Adjust the path to your `logger` module
+/**
+ * Object containing key-value pairs for various message identifiers used in the application.
+ *
+ * Properties:
+ * - USER_ADDED: Represents the key for a message indicating a user has been successfully added.
+ * - ERROR_MESSAGE_FAILED_TO_ADD_USER: Represents the key for a message indicating failure to add the user.
+ *
+ * @type {{USER_ADDED: string, ERROR_MESSAGE_FAILED_TO_ADD_USER: string}}
+ */
 const messageKeys = {
     USER_ADDED: 'user-added',
     ERROR_MESSAGE_FAILED_TO_ADD_USER: 'error-failed-to-add-user'

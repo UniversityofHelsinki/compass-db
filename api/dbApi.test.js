@@ -2,8 +2,15 @@ const path = require("path");
 require('dotenv').config({path: path.resolve(__dirname, '../.env')});
 const Pool = require('pg-pool');
 const client = require("../services/database");
+/**
+ * Returns a Promise that resolves after a specified number of milliseconds.
+ *
+ * @param {number} ms - The number of milliseconds to wait before the Promise is resolved.
+ * @return {Promise<void>} A Promise that resolves after the specified delay.
+ */
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const dbApi = require('../api/dbApi');
+
 
 beforeAll(async () => {
     const pool = new Pool({

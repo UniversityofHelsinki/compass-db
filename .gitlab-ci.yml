@@ -35,7 +35,8 @@ test:
     - postgres:16-alpine
   image: node:latest
   before_script:
-    - apk update && apk add bash
+    - apt-get update
+    - apt-get install -y bash
     - npm install
     - npx wait-on tcp:postgres:5432
   variables:

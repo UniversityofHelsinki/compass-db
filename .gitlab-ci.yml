@@ -3,6 +3,7 @@ image: docker:stable
 stages:
   - dependency-check
   - sonarqube-check
+  - test
   - build
   - deploy
 
@@ -26,6 +27,27 @@ variables:
 
 services:
   - docker:dind
+
+# Define the process for test stage
+test:
+  stage: test
+  services:
+    - postgres:16-alpine
+  variables:
+    POSTGRES_DB: ${DATABASE}
+    POSTGRES_USER: ${POSTGRES_USER}
+    POSTGRES_PASSWORD: ${PASSWORD}
+    POSTGRES_HOST_AUTH_METHOD: trust
+  tags:
+    - ohtu-build-4
+  script:
+    - npm run coverage
+  coverage: /All files\s*\|\s*([\d\.]+)/
+  artifacts:
+    name: lataamo-poistamo-coverage
+    paths:
+      - coverage
+    expire_in: 1 hour
 
 sonarqube-check:
   stage: sonarqube-check

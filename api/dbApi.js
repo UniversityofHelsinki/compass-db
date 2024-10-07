@@ -3,7 +3,7 @@ const path = require ("path");
 const {logger} = require("../logger");
 const database = require("../services/database");
 
-exports.insertanswer = async (answer) => {
+exports.saveAnswer = async (answer) => {
     try {
         const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertAnswer.sql"), "utf8");
         await database.query(insertAnswerSQL,

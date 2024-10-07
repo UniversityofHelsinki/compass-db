@@ -14,5 +14,5 @@ module.exports = (router) => {
     res.json(await assignments.studentAssignments(course, student))
   });
 
-  router.post('/saveanswer', answers.insertanswer);
+  router.post('/saveAnswer', answers.saveAnswer);
 };

@@ -22,11 +22,11 @@ const messageKeys = require('../utils/message-keys');
  exports.getAnswer = async (assignment_id, student) => {
     try {
         let response = await dbApi.getAnswer(assignment_id);
-        if (user_found_in_course) {
+        if (response) {
             logger.info(`Answer found`)
             res.json(response);
         } else {
-            logger.info(`User not found`)
+            logger.info(`Answer not found`)
             res.json({message: messageKeys.ANSWER_NOT_FOUND});
         }
     } catch (error) {

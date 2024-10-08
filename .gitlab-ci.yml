@@ -57,6 +57,7 @@ build:
     paths:
       - node_modules
 
+
 # Define the process for test stage
 test:
   stage: test

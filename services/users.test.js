@@ -1,7 +1,8 @@
-const {describe, beforeEach, expect} = require("@jest/globals");
+const { describe, beforeEach, expect } = require("@jest/globals");
 const { adduser } = require('../services/users'); // Adjust the path to your `users` module
 const dbApi = require('../api/dbApi'); // Adjust the path to your `dbApi` module
 const logger = require('../logger'); // Adjust the path to your `logger` module
+
 /**
  * Object containing key-value pairs for various message identifiers used in the application.
  *
@@ -23,6 +24,9 @@ jest.mock('../logger'); // Mock logger module
 describe('adduser', () => {
     let req, res;
 
+    /**
+     * Reset and initialize common objects and mocks before each test.
+     */
     beforeEach(() => {
         req = {
             body: {
@@ -40,13 +44,19 @@ describe('adduser', () => {
         jest.clearAllMocks();
     });
 
+    /**
+     * Test if a user and their roles can be added successfully.
+     */
     it('should add user and roles successfully', async () => {
         const userId = 1;
+        // Mocking dbApi responses
         dbApi.adduser.mockResolvedValue({ id: userId });
         dbApi.adduserRole.mockResolvedValue({});
 
+        // Call the function to test
         await adduser(req, res);
 
+        // Assertions to verify correct behavior
         expect(dbApi.adduser).toHaveBeenCalledWith('john@university.edu');
         expect(dbApi.adduserRole).toHaveBeenNthCalledWith(1, userId, 'student');
         expect(dbApi.adduserRole).toHaveBeenNthCalledWith(2, userId, 'alumni');
@@ -54,12 +64,18 @@ describe('adduser', () => {
         expect(res.json).toHaveBeenCalledWith({ message: messageKeys.USER_ADDED });
     });
 
+    /**
+     * Test error handling and response when user addition fails.
+     */
     it('should handle errors and send error response', async () => {
         const errorMessage = 'Test Error';
+        // Mocking dbApi to throw an error
         dbApi.adduser.mockRejectedValueOnce(new Error(errorMessage));
 
+        // Call the function to test
         await adduser(req, res);
 
+        // Assertions to verify error handling behavior
         expect(logger.logger.error).toHaveBeenCalledWith('error inserting user');
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({

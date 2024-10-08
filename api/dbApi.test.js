@@ -20,7 +20,7 @@ beforeAll(async () => {
         database: process.env.PGDATABASE,
         password: process.env.PGPASSWORD,
         port: process.env.PGPORT,
-        ssl: process.env.SSL ? true : false,
+        ssl: !!process.env.SSL,
         max: 1, // Reuse the connection to make sure we always hit the same temporal schema
         idleTimeoutMillis: 0 // Disable auto-disconnection of idle clients to make sure we always hit the same temporal schema
     });
@@ -57,7 +57,7 @@ describe('Database tests', () => {
     it('creates a new user to database', async () => {
         let users = await client.query('SELECT * FROM users');
         expect(users.rows[0]).toBeUndefined();
-        dbApi.adduser('john@helsinki.fi')
+        await dbApi.adduser('john@helsinki.fi')
         let usersAfterInsertion = await client.query('SELECT * FROM users');
         expect(usersAfterInsertion.rows).toHaveLength(1);
         expect(usersAfterInsertion.rows[0].id).toEqual(1);

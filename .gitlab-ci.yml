@@ -1,6 +1,7 @@
 image: docker:stable
 
 stages:
+  - build
   - dependency-check
   - sonarqube-check
   - test
@@ -23,10 +24,37 @@ variables:
   # `/certs/client` to share between the service and job
   # container, thanks to volume mount from config.toml
   DOCKER_TLS_CERTDIR: "/certs"
-
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
 
 services:
   - docker:dind
+
+# Define a hidden job to be used with extends
+# Better than default to avoid activating cache for all jobs
+.dependencies_cache:
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm
+    policy: pull
+
+
+# Define the process for setup stage
+build:
+  stage: build
+  tags:
+    - ohtu-build-4
+  script:
+    - npm ci
+  extends: .dependencies_cache
+  cache:
+    policy: pull-push
+  artifacts:
+    expire_in: 1h
+    paths:
+      - node_modules
 
 # Define the process for test stage
 test:
@@ -35,14 +63,13 @@ test:
   services:
     - postgres:16-alpine
   variables:
-    POSTGRES_DB: ${DATABASE}
-    POSTGRES_USER: ${POSTGRES_USER}
-    POSTGRES_PASSWORD: ${PASSWORD}
+    POSTGRES_DB: ${PGDATABASE}
+    POSTGRES_USER: ${PGUSER}
+    POSTGRES_PASSWORD: ${PGPASSWORD}
     POSTGRES_HOST_AUTH_METHOD: trust
   tags:
     - ohtu-build-4
   script:
-    - npm ci
     - npm run coverage
   coverage: /All files\s*\|\s*([\d\.]+)/
   artifacts:
@@ -50,6 +77,7 @@ test:
     paths:
       - coverage
     expire_in: 1 hour
+  extends: .dependencies_cache
 
 sonarqube-check:
   stage: sonarqube-check

@@ -44,6 +44,7 @@ services:
 # Define the process for setup stage
 build:
   stage: build
+  image: quay.io/tike/alpine-oc-node
   tags:
     - ohtu-build-4
   script:

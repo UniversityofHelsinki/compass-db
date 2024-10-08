@@ -17,4 +17,27 @@ const messageKeys = require('../utils/message-keys');
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
         });
     }
-}
+ }
+
+ exports.getAnswer = async (assignment_id) => {
+    try {
+        let response = await dbApi.getAnswer(assignment_id);
+        if (user_found_in_course) {
+            logger.info(`Answer found`)
+            res.json(response);
+        } else {
+            logger.info(`User not found`)
+            res.json({message: messageKeys.USER_NOT_EXIST});
+        }
+    } catch (error) {
+        logger.error(`error answer not in the database`);
+        const msg = error.message;
+        logger.error(`Error GET /getAnswer ${error} ${msg}  USER ${req.params.user_id}`);
+        res.status(500);
+        return res.json({
+            message: messageKeys.ERROR_MESSAGE_USER_EXIST_IN_DATABASE
+        });
+    }
+ }
+
+

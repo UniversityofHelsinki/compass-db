@@ -83,3 +83,14 @@ exports.userExist = async (user_id) => {
         throw err;
     }
 }
+
+exports.getAnswer = async (assignment_id) => {
+    try {
+        const answerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/student/answer.sql"), "utf8");
+        const result = await database.query(answerSQL, [assignment_id]);
+        return result;
+    } catch (err) {
+        logger.error(`Error reading answer with assignment_id ${assignment_id} : ${err} `);
+        throw err;
+    }
+}

@@ -15,4 +15,9 @@ module.exports = (router) => {
   });
 
   router.post('/saveAnswer', answers.saveAnswer);
+
+  router.get('/getAnswer', async (req, res) => {
+    const { assignment_id, student } = req.params;
+    answers.getAnswer(assignment_id);
+  });
 };

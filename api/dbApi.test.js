@@ -14,11 +14,11 @@ const dbApi = require('../api/dbApi');
 
 beforeAll(async () => {
     const pool = new Pool({
-        user: process.env.PG_USER,
-        host: process.env.PG_HOST,
-        database: process.env.PG_DATABASE,
-        password: process.env.PG_PASSWORD,
-        port: process.env.PG_PORT,
+        user: process.env.PGUSER,
+        host: process.env.PGHOST,
+        database: process.env.PGDATABASE,
+        password: process.env.PGPASSWORD,
+        port: process.env.PGPORT,
         ssl: process.env.SSL ? true : false,
         max: 1, // Reuse the connection to make sure we always hit the same temporal schema
         idleTimeoutMillis: 0 // Disable auto-disconnection of idle clients to make sure we always hit the same temporal schema

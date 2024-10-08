@@ -38,11 +38,11 @@ docker run --name compassdb -p 5432:5432 -e POSTGRES_PASSWORD=xxxxxx -e POSTGRES
 Create .env file to the root of the project with these values:
 
 ~~~
-PG_USER=postgres
-PG_PASSWORD=(your local postgres password)
-PG_PORT=5432
-PG_HOST=localhost
-PG_DATABASE=(your local postgres schema)
+PGUSER=postgres
+PGPASSWORD=(your local postgres password)
+PGPORT=5432
+PGHOST=localhost
+PGDATABASE=(your local postgres schema)
 ~~~
 
 Run npm install

@@ -49,6 +49,8 @@ Run npm install
 
 Start the service with node index.js
 
+Run tests with command:  npm run coverage
+
 ## Deployment
 
 Add additional notes about how to deploy this on a live system.

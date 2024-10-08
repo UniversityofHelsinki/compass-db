@@ -19,7 +19,7 @@ const messageKeys = require('../utils/message-keys');
     }
  }
 
- exports.getAnswer = async (assignment_id) => {
+ exports.getAnswer = async (assignment_id, student) => {
     try {
         let response = await dbApi.getAnswer(assignment_id);
         if (user_found_in_course) {
@@ -27,15 +27,15 @@ const messageKeys = require('../utils/message-keys');
             res.json(response);
         } else {
             logger.info(`User not found`)
-            res.json({message: messageKeys.USER_NOT_EXIST});
+            res.json({message: messageKeys.ANSWER_NOT_FOUND});
         }
     } catch (error) {
         logger.error(`error answer not in the database`);
         const msg = error.message;
-        logger.error(`Error GET /getAnswer ${error} ${msg}  USER ${req.params.user_id}`);
+        logger.error(`Error GET /getAnswer ${error} ${msg}  USER ${student}`);
         res.status(500);
         return res.json({
-            message: messageKeys.ERROR_MESSAGE_USER_EXIST_IN_DATABASE
+            message: messageKeys.ERROR_MESSAGE_FAILED_TO_READ_ANSWER
         });
     }
  }

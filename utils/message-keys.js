@@ -2,6 +2,7 @@
 const ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER = 'error-failed-to-save-answer';
 const MESSAGE_ANSWER_SAVED = 'answer-saved';
 const ANSWER_NOT_FOUND = 'answer-not-found';
+const ERROR_MESSAGE_FAILED_TO_READ_ANSWER= 'error-failed-to-read-answer';
 const USER_ADDED = 'user-added';
 const USER_ADDED_TO_COURSE = 'user-added-to-course';
 const ERROR_MESSAGE_FAILED_TO_ADD_USER = 'error-failed-to-add-user';
@@ -19,6 +20,7 @@ module.exports = {
     ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER,
     MESSAGE_ANSWER_SAVED,
     ANSWER_NOT_FOUND,
+    ERROR_MESSAGE_FAILED_TO_READ_ANSWER,
     USER_ADDED,
     ERROR_MESSAGE_FAILED_TO_ADD_USER,
     ERROR_MESSAGE_FAILED_TO_ADD_USER_TO_COURSE,

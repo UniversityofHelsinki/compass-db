@@ -42,6 +42,7 @@ test:
   tags:
     - ohtu-build-4
   script:
+    - npm ci
     - npm run coverage
   coverage: /All files\s*\|\s*([\d\.]+)/
   artifacts:

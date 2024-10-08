@@ -63,7 +63,7 @@ test:
   stage: test
   image: quay.io/tike/alpine-oc-node
   services:
-    - postgres:16-alpine
+    - postgres:12.2-alpine
   variables:
     POSTGRES_DB: ${PG_DATABASE}
     POSTGRES_USER: ${PG_USER}

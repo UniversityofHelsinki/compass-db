@@ -14,10 +14,10 @@ exports.saveAnswer = async (answer) => {
     }
 }
 
-exports.adduser = async (user_id) => {
+exports.adduser = async (userName) => {
     try {
         const insertUserSQL = fs.readFileSync(path.resolve(__dirname, "../sql/addUser.sql"), "utf8");
-        return await database.query(insertUserSQL,[user_id, new Date()]);
+        return await database.query(insertUserSQL,[userName, new Date()]);
     } catch (err) {
         logger.error(`Error inserting user : ${err} `);
         throw err;

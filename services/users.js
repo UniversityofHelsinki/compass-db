@@ -7,11 +7,11 @@ const res = require("express/lib/response");
 exports.adduser = async (req, res) => {
     try {
         let user = req.body;
-        let user_id = user.eppn;
+        let userName = user.eppn;
         let role = user.eduPersonAffiliation;
         let roles = role.split(';');
 
-        let value = await dbApi.adduser(user_id);
+        let value = await dbApi.adduser(userName);
 
         roles.forEach(async (role) => {
             let result = await dbApi.adduserRole(value.id, role);
@@ -23,7 +23,7 @@ exports.adduser = async (req, res) => {
     } catch (error) {
         logger.error(`error inserting user`);
         const msg = error.message;
-        logger.error(`Error POST /adduser ${error} ${msg}  USER ${req.body.user_id}`);
+        logger.error(`Error POST /adduser ${error} ${msg}  USER ${req.body.username}`);
         res.status(500);
         return res.json({
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_USER

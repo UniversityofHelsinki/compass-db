@@ -114,6 +114,16 @@ exports.getUserAnswersForCourseId= async (user_name, course_id) => {
     }
 }
 
+exports.getStudentAssignments = async (user_name) => {
+    try {
+        const getStudentAssignments = fs.readFileSync(path.resolve(__dirname, "../sql/course/studentAssignments.sql"), "utf8");
+        return await database.query(getStudentAssignments, [user_name, course_id]);
+    } catch (err) {
+        logger.error(`Error getting course answers for user: ${err} `);
+        throw err;
+    }
+}
+
 
 
 

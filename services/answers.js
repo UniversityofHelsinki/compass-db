@@ -1,6 +1,7 @@
 const dbApi = require ("../api/dbApi.js");
 const {logger} = require("../logger");
 const messageKeys = require('../utils/message-keys');
+const database = require("./database");
 
  exports.saveAnswer = async (req, res) => {
     try {
@@ -19,19 +20,6 @@ const messageKeys = require('../utils/message-keys');
     }
 }
 
-exports.getUserAnswersForCourseId = async (req, res) => {
-     try {
-         const userName = req.params.user_name;
-         const courseId = req.params.course_id;
-         const courseAnswers = await dbApi.getUserAnswersForCourseId(userName, courseId);
-         res.json(courseAnswers);
-     } catch (error) {
-         logger.error(`error getting course answers for user`);
-         const msg = error.message;
-         logger.error(`Error GET /getUserAnswersForCourseId ${error} ${msg} USER ${req.params.user_name}`);
-         res.status(500);
-         return res.json([{
-             message: messageKeys.ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS
-         }]);
-     }
+exports.student = async (student, course) => {
+     return await database.execute('student/answers.sql', [student, course]);
 }

@@ -19,25 +19,14 @@ const messageKeys = require('../utils/message-keys');
     }
  }
 
- exports.getAnswer = async (assignment_id, student) => {
-    try {
-        let response = await dbApi.getAnswer(assignment_id);
-        if (response) {
-            logger.info(`Answer found`)
-            res.json(response);
-        } else {
-            logger.info(`Answer not found`)
-            res.json({message: messageKeys.ANSWER_NOT_FOUND});
-        }
-    } catch (error) {
-        logger.error(`error answer not in the database`);
-        const msg = error.message;
-        logger.error(`Error GET /getAnswer ${error} ${msg}  USER ${student}`);
-        res.status(500);
-        return res.json({
-            message: messageKeys.ERROR_MESSAGE_FAILED_TO_READ_ANSWER
-        });
-    }
+ exports.getAnswer = async (assignment_id) => {
+     if (!assignment_id) {
+         throw new Error(
+             `assignment ${assignment_id} must be defined.`
+         );
+     }
+     console.log('getAnswer kutsuttiin');
+     return await dbApi.getAnswer(assignment_id);
  }
 
 

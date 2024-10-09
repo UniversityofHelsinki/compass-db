@@ -18,6 +18,6 @@ module.exports = (router) => {
 
   router.get('/answer/:assignment_id/:student', async (req, res) => {
     const { assignment_id, student } = req.params;
-    answers.getAnswer(assignment_id, student);
+    res.json(await answers.getAnswer(assignment_id));
   });
 };

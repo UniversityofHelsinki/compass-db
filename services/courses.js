@@ -27,11 +27,11 @@ exports.students = async (course) => {
   return await database.execute('course/students.sql', [course]);
 };
 
-exports.studentCourse = async (course) => {
-  if (!course) {
+exports.course = async (course_id) => {
+  if (!course_id) {
     throw new Error(
-        `course ${course} must be defined.`
+        `course ${course_id} must be defined.`
     );
   }
-  return await database.execute('course/course.sql', [course]);
+  return await database.execute('course/course.sql', [course_id]);
 }

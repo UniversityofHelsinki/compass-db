@@ -24,12 +24,12 @@ exports.singleAssignment = (req, res) => {
 };
 
 
-exports.assignment = async (assignment) => {
-  if (!assignment) {
+exports.assignment = async (assignment_id) => {
+  if (!assignment_id) {
     throw new Error(
-        `assignment ${assignment} must be defined.`
+        `assignment ${assignment_id} must be defined.`
     );
   }
-  return await database.execute('course/assignment.sql', [assignment]);
+  return await database.execute('course/assignment.sql', [assignment_id]);
 };
 

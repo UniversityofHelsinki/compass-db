@@ -23,3 +23,13 @@ exports.singleAssignment = (req, res) => {
   return res.json([]);
 };
 
+
+exports.assignment = async (assignment) => {
+  if (!assignment) {
+    throw new Error(
+        `assignment ${assignment} must be defined.`
+    );
+  }
+  return await database.execute('course/assignment.sql', [assignment]);
+};
+

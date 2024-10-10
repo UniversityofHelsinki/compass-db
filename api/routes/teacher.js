@@ -23,11 +23,5 @@ module.exports = (router) => {
     const course = req.params.course;
     res.json(await courses.students(course));
   });
-
-  router.get('/courses/:teacher', async (req, res) => {
-    const { teacher } = req.params;
-    res.json(await courses.forTeacher(teacher));
-  });
-
 };
 

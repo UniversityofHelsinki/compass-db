@@ -5,9 +5,9 @@ const messageKeys = require('../utils/message-keys');
  exports.saveAnswer = async (req, res) => {
     try {
         let answer = req.body;
-        await dbApi.saveAnswer(answer);
-        logger.info(`Answer stored`)
-        res.json({message: messageKeys.MESSAGE_ANSWER_SAVED});
+        return res.json(await dbApi.saveAnswer(answer));
+        //logger.info(`Answer stored`)
+        //res.json({message: messageKeys.MESSAGE_ANSWER_SAVED});
     } catch (error) {
         logger.error(`error inserting answer`);
         const msg = error.message;

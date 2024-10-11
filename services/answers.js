@@ -1,6 +1,7 @@
 const dbApi = require ("../api/dbApi.js");
 const {logger} = require("../logger");
 const messageKeys = require('../utils/message-keys');
+const database = require("./database");
 
  exports.saveAnswer = async (req, res) => {
     try {
@@ -17,4 +18,8 @@ const messageKeys = require('../utils/message-keys');
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
         });
     }
+}
+
+exports.student = async (student, course) => {
+     return await database.execute('student/answers.sql', [student, course]);
 }

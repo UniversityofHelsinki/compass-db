@@ -83,3 +83,49 @@ exports.userExist = async (user_id) => {
         throw err;
     }
 }
+
+exports.getUserById = async (user_id) => {
+    try {
+        const getUserByIdSQL = fs.readFileSync(path.resolve(__dirname, "../sql/getUserById.sql"), "utf8");
+        return await database.query(getUserByIdSQL, [user_id]);
+    } catch (err) {
+        logger.error(`Error getting user: ${err} `);
+        throw err;
+    }
+}
+
+exports.getCourseForUser = async (user_id) => {
+    try {
+        const getCourseForUserSQL = fs.readFileSync(path.resolve(__dirname, "../sql/getCourseForUser.sql"), "utf8");
+        return await database.query(getCourseForUserSQL, [user_id]);
+    } catch (err) {
+        logger.error(`Error getting user course: ${err} `);
+        throw err;
+    }
+}
+
+exports.getUserAnswersForCourseId= async (user_name, course_id) => {
+    try {
+        const getUserAnswersForCourseId = fs.readFileSync(path.resolve(__dirname, "../sql/getUserAnswersForCourseId.sql"), "utf8");
+        return await database.query(getUserAnswersForCourseId, [user_name, course_id]);
+    } catch (err) {
+        logger.error(`Error getting course answers for user: ${err} `);
+        throw err;
+    }
+}
+
+exports.getStudentAssignments = async (user_name) => {
+    try {
+        const getStudentAssignments = fs.readFileSync(path.resolve(__dirname, "../sql/course/studentAssignments.sql"), "utf8");
+        return await database.query(getStudentAssignments, [user_name, course_id]);
+    } catch (err) {
+        logger.error(`Error getting course answers for user: ${err} `);
+        throw err;
+    }
+}
+
+
+
+
+
+

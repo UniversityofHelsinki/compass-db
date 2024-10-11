@@ -9,17 +9,12 @@ exports.forCourse = async (course) => {
   return await database.execute('course/assignments.sql', [course]);
 };
 
-exports.studentAssignments = async (course, student) => {
+exports.student = async (course, student) => {
   if (!course || !student) {
     throw new Error(
       `course ${course} and student ${student} must be defined.`
     );
   }
   return await database.execute('course/studentAssignments.sql', [course, student]);
-};
-
-exports.singleAssignment = (req, res) => {
-  const { course, assignment, student } = req.params;
-  return res.json([]);
 };
 

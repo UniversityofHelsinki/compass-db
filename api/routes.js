@@ -1,6 +1,5 @@
 const {logger} = require("../logger");
 
-const answers = require("../services/answers.js");
 const users = require("../services/users");
 
 module.exports = (router) => {
@@ -13,4 +12,5 @@ module.exports = (router) => {
     router.post('/connectusertocourse', users.connectusertocourse);
     router.post('/adduser', users.adduser);
     router.get('/userExist/:user_id', users.userExist);
+
 };

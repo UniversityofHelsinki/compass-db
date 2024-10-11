@@ -1,6 +1,7 @@
 const dbApi = require ("../api/dbApi.js");
 const {logger} = require("../logger");
 const messageKeys = require('../utils/message-keys');
+const database = require("./database");
 
  exports.saveAnswer = async (req, res) => {
     try {
@@ -28,5 +29,27 @@ const messageKeys = require('../utils/message-keys');
      console.log('getAnswer kutsuttiin');
      return await dbApi.getAnswer(assignment_id);
  }
+
+
+exports.getAssignmentCourse = async (assignment_id) => {
+    if (!assignment_id) {
+        throw new Error(
+            `assignment ${assignment_id} must be defined.`
+        );
+    }
+    console.log('getAssignmentCourse', assignment_id);
+    return await database.execute('course/assignmentCourse.sql', [assignment_id]);
+};
+
+exports.getAnswerAssignmentCourse = async (assignment_id) => {
+    if (!assignment_id) {
+        throw new Error(
+            `assignment ${assignment_id} must be defined.`
+        );
+    }
+    console.log('getAnswerAssignmentCourse', assignment_id);
+    return await database.execute('student/answerAssignmentCourse.sql', [assignment_id]);
+};
+
 
 

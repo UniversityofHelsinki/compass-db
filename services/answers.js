@@ -12,7 +12,7 @@ const database = require("./database");
     } catch (error) {
         logger.error(`error inserting answer`);
         const msg = error.message;
-        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${answer.user_name}`);
         res.status(500);
         return res.json({
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
@@ -31,15 +31,6 @@ const database = require("./database");
  }
 
 
-exports.getAssignmentCourse = async (assignment_id) => {
-    if (!assignment_id) {
-        throw new Error(
-            `assignment ${assignment_id} must be defined.`
-        );
-    }
-    console.log('getAssignmentCourse', assignment_id);
-    return await database.execute('course/assignmentCourse.sql', [assignment_id]);
-};
 
 exports.getAnswerAssignmentCourse = async (assignment_id) => {
     if (!assignment_id) {
@@ -48,7 +39,12 @@ exports.getAnswerAssignmentCourse = async (assignment_id) => {
         );
     }
     console.log('getAnswerAssignmentCourse', assignment_id);
-    return await database.execute('student/answerAssignmentCourse.sql', [assignment_id]);
+    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id]);
+    if (result && result.length > 0) {
+        return result[0];
+    } else {
+        return null;
+    }
 };
 
 

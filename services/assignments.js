@@ -1,4 +1,7 @@
 const database = require('../services/database.js');
+const fs = require("fs");
+const path = require("path");
+const {logger} = require("../logger");
 
 exports.forCourse = async (course) => {
   if (!course) {
@@ -23,7 +26,6 @@ exports.singleAssignment = (req, res) => {
   return res.json([]);
 };
 
-
 exports.assignment = async (assignment_id) => {
   if (!assignment_id) {
     throw new Error(
@@ -33,3 +35,17 @@ exports.assignment = async (assignment_id) => {
   return await database.execute('course/assignment.sql', [assignment_id]);
 };
 
+exports.getAssignmentCourse = async (assignment_id) => {
+  if (!assignment_id) {
+    throw new Error(
+        `assignment ${assignment_id} must be defined.`
+    );
+  }
+  console.log('getAssignmentCourse', assignment_id);
+  const result =  await database.execute('course/assignmentCourse.sql', [assignment_id]);
+  if (result && result.length > 0) {
+    return result[0];
+  } else {
+    return null;
+  }
+};

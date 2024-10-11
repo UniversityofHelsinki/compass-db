@@ -40,7 +40,7 @@ const port = 8000;
 app.use('/api', router);
 routes(router);
 router.use('/teacher', teacherRouter);
-router.use('/student', studentRouter)
+router.use('/student', studentRouter);
 
 teacher(teacherRouter);
 student(studentRouter);

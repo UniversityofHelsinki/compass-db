@@ -23,6 +23,5 @@ module.exports = (router) => {
     const course = req.params.course;
     res.json(await courses.students(course));
   });
-
 };
 

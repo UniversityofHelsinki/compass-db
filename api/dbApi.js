@@ -129,12 +129,6 @@ exports.getStudentAssignments = async (user_name) => {
     }
 }
 
-
-
-
-
-
-
 exports.getAnswer = async (assignment_id) => {
     try {
         const answerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/student/answer.sql"), "utf8");

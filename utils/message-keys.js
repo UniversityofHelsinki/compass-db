@@ -15,6 +15,7 @@ const ERROR_MESSAGE_USER_CHECKING_IN_COURSE = 'error-user-checking-in-course';
 const USER_EXIST = 'user-is-in-database';
 const USER_NOT_EXIST = 'error-user-not-in-database';
 const ERROR_MESSAGE_USER_EXIST_IN_DATABASE = 'error-user-checking-in-database';
+const ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS = 'error-failed-to-get-course-answers-for-user';
 
 module.exports = {
     ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER,
@@ -32,5 +33,6 @@ module.exports = {
     ERROR_MESSAGE_USER_CHECKING_IN_COURSE,
     USER_EXIST,
     USER_NOT_EXIST,
-    ERROR_MESSAGE_USER_EXIST_IN_DATABASE
+    ERROR_MESSAGE_USER_EXIST_IN_DATABASE,
+    ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS
 };

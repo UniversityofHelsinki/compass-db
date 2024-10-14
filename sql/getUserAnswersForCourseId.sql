@@ -1,0 +1,1 @@
+SELECT * FROM answer WHERE user_name = $1 AND course_id = $2

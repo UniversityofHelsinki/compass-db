@@ -12,13 +12,17 @@ const database = require("./database");
     } catch (error) {
         logger.error(`error inserting answer`);
         const msg = error.message;
-        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${answer.user_name}`);
+        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${req.user.eppn}`);
         res.status(500);
         return res.json({
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
         });
     }
  }
+
+exports.student = async (student, course) => {
+     return await database.execute('student/answers.sql', [student, course]);
+}
 
  exports.getAnswer = async (assignment_id) => {
      if (!assignment_id) {

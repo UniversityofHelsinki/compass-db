@@ -12,7 +12,6 @@ module.exports = (router) => {
   router.get('/courses/:course/assignments/:student', async (req, res) => {
     const { course, student } = req.params;
     res.json(await assignments.student(course, student));
-    res.json(await assignments.studentAssignments(course, student));
   });
 
   router.post('/saveAnswer', answers.saveAnswer);

@@ -30,10 +30,8 @@ const database = require("./database");
      return await dbApi.getAnswer(assignment_id);
  }
 
-
-
 exports.getAnswerAssignmentCourse = async (assignment_id) => {
-    if (!assignment_id) {
+    if (!assignment_id || assignment_id === 'undefined') {
         throw new Error(
             `assignment ${assignment_id} must be defined.`
         );

@@ -6,8 +6,6 @@ const client = require("../services/database");
 const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require("@jest/globals");
 const courses = require('./courses');
 
-let pool;
-
 beforeAll(async () => {
     pool = new Pool({
         user: process.env.PGUSER,

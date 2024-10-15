@@ -34,14 +34,19 @@ exports.student = async (student, course) => {
      return await dbApi.getAnswer(assignment_id);
  }
 
-exports.getAnswerAssignmentCourse = async (assignment_id) => {
+exports.getAnswerAssignmentCourse = async (assignment_id, student) => {
     if (!assignment_id || assignment_id === 'undefined') {
         throw new Error(
             `assignment ${assignment_id} must be defined.`
         );
     }
-    console.log('getAnswerAssignmentCourse', assignment_id);
-    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id]);
+    if (!student || student === 'undefined') {
+        throw new Error(
+            `student ${student} must be defined.`
+        );
+    }
+    console.log('getAnswerAssignmentCourse', assignment_id, student);
+    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id, student]);
     if (result && result.length > 0) {
         return result[0];
     } else {

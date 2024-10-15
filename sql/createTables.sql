@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS USER_COURSE (
 );
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     id SERIAL,
-    assignment_id integer NOT NULL UNIQUE,
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     topic varchar(255),
     start_date TIMESTAMP,
@@ -35,7 +34,7 @@ CREATE TABLE IF NOT EXISTS ASSIGNMENT (
 );
 CREATE TABLE IF NOT EXISTS QUESTION (
     id SERIAL,
-    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    assignment_id integer REFERENCES ASSIGNMENT (id),
     order_nbr integer,
     language VARCHAR(20),
     value VARCHAR(255),
@@ -44,7 +43,7 @@ CREATE TABLE IF NOT EXISTS QUESTION (
 );
 CREATE TABLE IF NOT EXISTS ANSWER (
     id SERIAL,
-    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    assignment_id integer REFERENCES ASSIGNMENT (id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     user_name VARCHAR(255),
     value VARCHAR(255),
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS ANSWER (
 );
 CREATE TABLE IF NOT EXISTS FEEDBACK (
     id SERIAL,
-    assignment_id integer REFERENCES ASSIGNMENT (assignment_id),
+    assignment_id integer REFERENCES ASSIGNMENT (id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     language VARCHAR(20),
     order_nbr integer,

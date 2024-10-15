@@ -43,7 +43,13 @@ module.exports = (router) => {
   });
 
   router.get('/course/assignment/answer/:assignment_id', async (req, res) => {
+    const { assignment_id, student } = req.params;
+    res.json(await answers.getAnswerAssignmentCourse(assignment_id, student));
+  });
+
+  router.get('/user/answer/delete/:assignment_id/:course_id', async (req, res) => {
     const { assignment_id } = req.params;
-    res.json(await answers.getAnswerAssignmentCourse(assignment_id));
+    const { course_id } = req.params;
+    res.json(await answers.deleteUserAnswer(assignment_id, course_id));
   });
 };

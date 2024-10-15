@@ -6,15 +6,17 @@ module.exports = (router) => {
 
   router.post('/courses', async (req, res) => {
     const course = (await courses.save(req.body))[0];
-    const courseAssignments = req.body.assignments.map(a => 
-      ({ ...a, course_id: course.course_id })
-    );
-    if (courseAssignments) {
-      const saved = courseAssignments.map(assignments.save);
-      return res.json({ 
-        ...course, 
-        assignments: (await Promise.all(saved)).flat()
-      });
+    if (req.body.assignments) {
+      const courseAssignments = req.body.assignments.map(a =>
+          ({ ...a, course_id: course.course_id })
+      );
+      if (courseAssignments) {
+        const saved = courseAssignments.map(assignments.save);
+        return res.json({
+          ...course,
+          assignments: (await Promise.all(saved)).flat()
+        });
+      }
     }
     return res.json(course);
   });
@@ -27,9 +29,9 @@ module.exports = (router) => {
         if (assignment.id) {
           return assignments.update(assignment);
         }
-        return assignments.save({ 
-          ...assignment, 
-          course_id: course.course_id 
+        return assignments.save({
+          ...assignment,
+          course_id: course.course_id
         });
       });
 

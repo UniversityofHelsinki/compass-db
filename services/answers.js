@@ -54,23 +54,18 @@ exports.getAnswerAssignmentCourse = async (assignment_id, student) => {
     }
 };
 
-exports.deleteUserAnswer = async (assignment_id, course_id) => {
-    if (!assignment_id || assignment_id === 'undefined') {
-        throw new Error(
-            `assignment ${assignment_id} must be defined.`
-        );
-    }
-    if (!course_id || course_id === 'undefined') {
-        throw new Error(
-            `course ${course_id} must be defined.`
-        );
-    }
-    console.log('deleteUserAnswer', assignment_id, co);
-    const result =  await database.execute('student/deleteUserAnswer.sql', [assignment_id]);
-    if (result && result.length > 0) {
-        return result[0];
-    } else {
-        return null;
+exports.deleteStudentAnswer = async (req, res) => {
+    try {
+        let answer = req.body;
+        return  res.json(await database.execute('student/deleteUserAnswer.sql', [answer.assignment_id, answer.course_id, answer.user_name]));
+    } catch (error) {
+        logger.error(`error deleting answer`);
+        const msg = error.message;
+        logger.error(`Error POST /deleteUserAnswer ${error} ${msg}  USER ${studentAnswer.user_name}`);
+        res.status(500);
+        return res.json({
+            message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
+        });
     }
 };
 

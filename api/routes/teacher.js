@@ -41,7 +41,7 @@ module.exports = (router) => {
       });
 
     }
-    res.json(course);
+    res.json({ ...course, assignments: [] });
   });
 
   router.get('/courses/:teacher', async (req, res) => {

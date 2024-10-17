@@ -1,34 +1,19 @@
-const path = require("path");
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const Pool = require('pg-pool');
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const client = require("../services/database");
 const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require("@jest/globals");
 const courses = require('./courses');
+const {setupDatabase, database} = require("./testDatabaseSetup");
 
 beforeAll(async () => {
-    pool = new Pool({
-        user: process.env.PGUSER,
-        host: process.env.PGHOST,
-        database: process.env.PGDATABASE,
-        password: process.env.PGPASSWORD,
-        port: process.env.PGPORT,
-        ssl: !!process.env.SSL,
-        max: 1,
-        idleTimeoutMillis: 0
-    });
-
-    client.end = () => pool.end();
-    client.query = (text, values) => pool.query(text, values);
+   await setupDatabase();
 });
 
 beforeEach(async () => {
-    await client.query('CREATE TEMPORARY TABLE course (id SERIAL PRIMARY KEY, course_id VARCHAR(255) UNIQUE, user_name VARCHAR(255), title VARCHAR(255), description TEXT, start_date TIMESTAMPTZ, end_date TIMESTAMPTZ)');
+    await database.query('CREATE TEMPORARY TABLE IF NOT EXISTS course (id SERIAL PRIMARY KEY, course_id VARCHAR(255) UNIQUE, user_name VARCHAR(255), title VARCHAR(255), description TEXT, start_date TIMESTAMPTZ, end_date TIMESTAMPTZ)');
 });
 
 afterEach(async () => {
     await wait(100);
-    await client.query('DROP TABLE IF EXISTS course');
+    await database.query('DROP TABLE IF EXISTS pg_temp.course');
 });
 
 describe('Courses Service with Temporary Tables', () => {
@@ -44,14 +29,14 @@ describe('Courses Service with Temporary Tables', () => {
             };
 
             // Ensure there are no courses initially
-            const foundCourses = await client.query('SELECT * FROM course');
+            const foundCourses = await database.query('SELECT * FROM course');
             expect(foundCourses.rows.length).toBe(0);
 
             // Call the `save` method from the `courses` module
             await courses.save(courseData);
 
             // Query the temporary table to check if the course was added
-            const result = await client.query('SELECT * FROM course WHERE course_id = $1', [courseData.course_id]);
+            const result = await database.query('SELECT * FROM course WHERE course_id = $1', [courseData.course_id]);
             const savedCourse = result.rows[0];
 
             // Helper function to trim milliseconds from ISO string
@@ -75,5 +60,5 @@ describe('Courses Service with Temporary Tables', () => {
 });
 
 afterAll(async () => {
-    await client.end();
+    await database.end();
 });

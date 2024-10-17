@@ -5,13 +5,24 @@ const database = require("../services/database");
 
 exports.saveAnswer = async (answer) => {
     try {
-        const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertAnswer.sql"), "utf8");
-        const result = await database.query(insertAnswerSQL,
-            [answer.user_name, answer.course_id, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignment_id, new Date()]);
-        if (result && result.length > 0) {
-            return result[0];
-        } else {
-            return null;
+        if (answer.id) { //answer already in database
+            const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertOrUpdateAnswer.sql"), "utf8");
+            const result = await database.query(insertAnswerSQL,
+                [answer.id, answer.user_name, answer.course_id, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignment_id, new Date()]);
+            if (result && result.length > 0) {
+                return result[0];
+            } else {
+                return null;
+            }
+        } else { //insert answer
+            const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertAnswer.sql"), "utf8");
+            const result = await database.query(insertAnswerSQL,
+                [answer.user_name, answer.course_id, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignment_id, new Date()]);
+            if (result && result.length > 0) {
+                return result[0];
+            } else {
+                return null;
+            }
         }
     } catch (err) {
         logger.error(`Error inserting answer : ${err} `);

@@ -12,7 +12,7 @@ const database = require("./database");
     } catch (error) {
         logger.error(`error inserting answer`);
         const msg = error.message;
-        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${req.user.eppn}`);
+        logger.error(`Error POST /saveAnswer ${error} ${msg}  USER ${req.body.user_name}`);
         res.status(500);
         return res.json({
             message: messageKeys.ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER
@@ -34,7 +34,7 @@ exports.student = async (student, course) => {
      return await dbApi.getAnswer(assignment_id);
  }
 
-exports.getAnswerAssignmentCourse = async (assignment_id, student) => {
+exports.getAnswerAssignmentCourse = async (assignment_id, student, course) => {
     if (!assignment_id || assignment_id === 'undefined') {
         throw new Error(
             `assignment ${assignment_id} must be defined.`
@@ -45,8 +45,13 @@ exports.getAnswerAssignmentCourse = async (assignment_id, student) => {
             `student ${student} must be defined.`
         );
     }
-    console.log('getAnswerAssignmentCourse', assignment_id, student);
-    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id, student]);
+    if (!course || course === 'undefined') {
+        throw new Error(
+            `course ${course} must be defined.`
+        );
+    }
+    console.log('getAnswerAssignmentCourse', assignment_id, student, course);
+    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id, student, course]);
     if (result && result.length > 0) {
         return result[0];
     } else {

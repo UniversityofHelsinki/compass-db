@@ -1,0 +1,8 @@
+UPDATE COURSE SET
+    COURSE_ID = $2,
+    USER_NAME = $3,
+    TITLE = $4,
+    DESCRIPTION = $5,
+    START_DATE = $6,
+    END_DATE = $7
+WHERE ID = $1 RETURNING *;

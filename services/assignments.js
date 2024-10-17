@@ -6,7 +6,6 @@ const columns = (assignment) => {
   if (assignment.id) {
     return [assignment.id, ...values];
   }
-  console.log(values);
   return values;
 };
 

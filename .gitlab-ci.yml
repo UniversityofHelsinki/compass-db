@@ -2,10 +2,9 @@ image: docker:stable
 
 stages:
   - build
+  - test
   - dependency-check
   - sonarqube-check
-  - test
-  - build
   - deploy
 
 variables:
@@ -117,12 +116,13 @@ dependency-check:
   script:
     - >
       /usr/share/dependency-check/bin/dependency-check.sh
-      --project compass-backend --scan . --enableExperimental
-      --format HTML -nvdApiKey $NVD_API_KEY
+      --project compass-db --scan .
+      --format JSON --format HTML -nvdApiKey $NVD_API_KEY
   artifacts:
     when: always
     expire_in: 1 hour
     paths:
+      - dependency-check-report.html
       - dependency-check-report.html
 
 build_image:

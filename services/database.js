@@ -1,6 +1,10 @@
 // Postgres client setup
 const Pool = require ("pg-pool");
 const { read } = require("../sql/read");
+const path = require("path");
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
+console.log(process.env.PGDATABASE);
 
 const pool = new Pool({
     user: process.env.PGUSER,
@@ -27,7 +31,6 @@ const query = async (text, values) => {
     }
 };
 
-exports.query = query;
 
 exports.execute = async (file, values) => {
   try {
@@ -42,3 +45,7 @@ exports.execute = async (file, values) => {
     );
   }
 };
+
+exports.end = () => pool.end();
+
+exports.query = (text, values) => pool.query(text, values);

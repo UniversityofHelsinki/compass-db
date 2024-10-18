@@ -2,10 +2,11 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require("@jest/globals");
 const courses = require('./courses');
 const assignments = require('./assignments');
-const { setupDatabase, database } = require("./testDatabaseSetup");
+const database = require("../services/database");
 
 beforeAll(async () => {
-    await setupDatabase();
+    // Any initial database setups, if required
+    await database.query(`-- Any initial setup SQL if required`);
 });
 
 beforeEach(async () => {
@@ -120,6 +121,6 @@ describe('Course and Assignments Service with Temporary Tables', () => {
     });
 });
 
-afterAll(async () => {
-    await database.end();
+afterAll( done => {
+    database.end().then(done());
 });

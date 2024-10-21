@@ -1,0 +1,6 @@
+UPDATE ASSIGNMENT SET
+    COURSE_ID = $2,
+    TOPIC = $3,
+    START_DATE = $4,
+    END_DATE = $5
+WHERE ID = $1 RETURNING *;

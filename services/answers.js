@@ -7,8 +7,6 @@ const database = require("./database");
     try {
         let answer = req.body;
         return res.json(await dbApi.saveAnswer(answer));
-        //logger.info(`Answer stored`)
-        //res.json({message: messageKeys.MESSAGE_ANSWER_SAVED});
     } catch (error) {
         logger.error(`error inserting answer`);
         const msg = error.message;

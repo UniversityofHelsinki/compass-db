@@ -5,4 +5,4 @@ FROM course
     answer.assignment_id = $1 AND
     answer.user_name = $2
          JOIN assignment ON
-    assignment.assignment_id = answer.assignment_id;
+    assignment.id = answer.assignment_id;

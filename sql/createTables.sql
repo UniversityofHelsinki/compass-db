@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS COURSE (
     user_name VARCHAR(255),
     title VARCHAR(255),
     description VARCHAR(255),
-    start_date date,
-    end_date date,
+    start_date TIMESTAMPTZ,
+    end_date TIMESTAMPTZ,
     created TIMESTAMP,
     PRIMARY KEY(id)
 );

@@ -1,0 +1,1 @@
+DELETE FROM answer WHERE assignment_id = $1 AND course_id = $2 AND user_name = $3

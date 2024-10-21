@@ -9,7 +9,7 @@ exports.saveAnswer = async (answer) => {
             const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertOrUpdateAnswer.sql"), "utf8");
             const result = await database.query(insertAnswerSQL,
                 [answer.id, answer.user_name, answer.course_id, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignment_id, new Date()]);
-            if (result && result.length > 0) {
+            if (result && result.rowCount > 0) {
                 return result[0];
             } else {
                 return null;

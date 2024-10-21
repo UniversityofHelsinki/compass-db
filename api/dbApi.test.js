@@ -1,7 +1,7 @@
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const dbApi = require('../api/dbApi');
 const {describe, afterEach, beforeEach, beforeAll, afterAll, expect} = require("@jest/globals");
-const {setupDatabase, database} = require("../services/testDatabaseSetup");
+const database = require("../services/database");
 
 /**
  * Global setup before any tests run.
@@ -9,7 +9,7 @@ const {setupDatabase, database} = require("../services/testDatabaseSetup");
  * Overrides database's end and query methods to use this pool.
  */
 beforeAll(async () => {
-    await setupDatabase();
+    await database.query(`-- Any initial setup SQL if required`);
 });
 
 /**
@@ -88,6 +88,6 @@ describe('Database tests', () => {
  * Global teardown after all tests run.
  * Closes the database connection pool.
  */
-afterAll(done => {
+afterAll( done => {
     database.end().then(done());
 });

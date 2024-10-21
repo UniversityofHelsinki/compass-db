@@ -6,8 +6,13 @@ const database = require("../services/database");
 exports.saveAnswer = async (answer) => {
     try {
         const insertAnswerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/insertAnswer.sql"), "utf8");
-        await database.query(insertAnswerSQL,
-            [answer.userid, answer.courseid, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignmentid, new Date()]);
+        const result = await database.query(insertAnswerSQL,
+            [answer.user_name, answer.course_id, new Date(), answer.value, parseInt(answer.order_nbr), answer.assignment_id, new Date()]);
+        if (result && result.rowCount > 0) {
+            return result.rows[0];
+        } else {
+            return null;
+        }
     } catch (err) {
         logger.error(`Error inserting answer : ${err} `);
         throw err;
@@ -124,8 +129,17 @@ exports.getStudentAssignments = async (user_name) => {
     }
 }
 
-
-
-
-
-
+exports.getAnswer = async (assignment_id) => {
+    try {
+        const answerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/student/answer.sql"), "utf8");
+        const result = await database.query(answerSQL, [assignment_id]);
+        if (result && result.length > 0) {
+            return result[0];
+        } else {
+            return null;
+        }
+    } catch (err) {
+        logger.error(`Error reading answer with assignment_id ${assignment_id} : ${err} `);
+        throw err;
+    }
+}

@@ -1,0 +1,1 @@
+SELECT * FROM answer WHERE assignment_id = $1

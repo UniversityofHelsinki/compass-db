@@ -21,4 +21,29 @@ module.exports = (router) => {
     res.json(await answers.student(student, course));
   });
 
+
+  router.get('/answer/:assignment_id/:student', async (req, res) => {
+    const { assignment_id } = req.params;
+    res.json(await answers.getAnswer(assignment_id));
+  });
+
+  router.get('/course/:course_id', async (req, res) => {
+    const { course_id } = req.params;
+    res.json(await courses.course(course_id));
+  });
+
+  router.get('/course/assignment/:assignment_id', async (req, res) => {
+    const { assignment_id } = req.params;
+    res.json(await assignments.assignment(assignment_id));
+  });
+
+  router.get('/assignment/course/:assignment_id', async (req, res) => {
+    const { assignment_id } = req.params;
+    res.json(await assignments.getAssignmentCourse(assignment_id));
+  });
+
+  router.get('/course/assignment/answer/:assignment_id/:student', async (req, res) => {
+    const { assignment_id, student } = req.params;
+    res.json(await answers.getAnswerAssignmentCourse(assignment_id, student));
+  });
 };

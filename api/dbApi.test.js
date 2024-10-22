@@ -68,8 +68,8 @@ beforeEach(async () => {
 
     // Insert an assignment
     await database.query(`
-        INSERT INTO assignment (course_id, topic, start_date, end_date, created, deadline) VALUES
-            ('CS101', 'Introduction to Programming', now(), now() + interval '1 week', now(), now() + interval '1 week');
+        INSERT INTO assignment (course_id, topic, start_date, end_date, created) VALUES
+            ('CS101', 'Introduction to Programming', now(), now() + interval '1 week', now());
     `);
 });
 

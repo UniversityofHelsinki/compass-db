@@ -49,7 +49,27 @@ exports.getAnswerAssignmentCourse = async (assignment_id, student, course) => {
         );
     }
     console.log('getAnswerAssignmentCourse', assignment_id, student, course);
-    const result =  await database.execute('student/answerAssignmentCourse.sql', [assignment_id, student, course]);
+    const result =  await database.execute('student/answerAssignmentCourse.sql', [parseInt(assignment_id), student, course]);
+    if (result && result.length > 0) {
+        return result[0];
+    } else {
+        return null;
+    }
+};
+
+exports.getCourseAssignmentAnswer = async (student, course) => {
+    if (!student || student === 'undefined') {
+        throw new Error(
+            `student ${student} must be defined.`
+        );
+    }
+    if (!course || course === 'undefined') {
+        throw new Error(
+            `course ${course} must be defined.`
+        );
+    }
+    console.log('getCourseAssignmentAnswer', student, course);
+    const result =  await database.execute('student/courseAssignmentAnswer.sql', [student, course]);
     if (result && result.length > 0) {
         return result[0];
     } else {

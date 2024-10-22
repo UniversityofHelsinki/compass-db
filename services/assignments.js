@@ -69,7 +69,7 @@ exports.getAssignmentCourse = async (assignment_id) => {
     );
   }
   console.log('getAssignmentCourse', assignment_id);
-  const result =  await database.execute('course/assignmentCourse.sql', [assignment_id]);
+  const result =  await database.execute('course/assignmentCourse.sql', [parseInt(assignment_id)]);
   if (result && result.length > 0) {
     return result[0];
   } else {

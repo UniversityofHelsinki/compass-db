@@ -45,6 +45,14 @@ exports.forStudent = async (student) => {
   return await database.execute('student/courses.sql', [student]);
 };
 
+exports.studentCourses = async (student) => {
+  if (!student) {
+    return [];
+  }
+
+  return await database.execute('student/studentCourses.sql', [student]);
+};
+
 exports.students = async (course) => {
   if (!course) {
     throw new Error(

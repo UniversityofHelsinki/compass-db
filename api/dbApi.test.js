@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const { describe, afterEach, beforeEach, beforeAll, afterAll, test, expect } = require("@jest/globals");
 const database = require("../services/database");

@@ -1,4 +1,4 @@
-SELECT answer.assignment_id, course.title, assignment.topic, answer.course_id, answer.id
+SELECT answer.assignment_id, course.title, assignment.topic, assignment.start_date, assignment.end_date, answer.course_id, answer.id
 FROM course
          JOIN answer ON
     answer.course_id = course.course_id AND

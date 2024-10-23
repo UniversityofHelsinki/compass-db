@@ -71,7 +71,7 @@ exports.getCourseAssignmentAnswer = async (student, course) => {
     console.log('getCourseAssignmentAnswer', student, course);
     const result =  await database.execute('student/courseAssignmentAnswer.sql', [student, course]);
     if (result && result.length > 0) {
-        return result[0];
+        return result;
     } else {
         return null;
     }

@@ -59,7 +59,12 @@ exports.assignment = async (assignment_id) => {
         `assignment ${assignment_id} must be defined.`
     );
   }
-  return await database.execute('course/assignment.sql', [assignment_id]);
+  const result = await database.execute('course/assignment.sql', [assignment_id]);
+  if (result && result.length > 0) {
+    return result[0];
+  } else {
+    return null;
+  }
 };
 
 exports.getAssignmentCourse = async (assignment_id) => {

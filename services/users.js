@@ -2,36 +2,7 @@ const dbApi = require('../api/dbApi.js');
 const { logger } = require('../logger');
 const messageKeys = require('../utils/message-keys');
 
-exports.addUser = async (req, res) => {
-    try {
-        const user = req.body;
-        const userName = user.eppn;
-        const roles = user.eduPersonAffiliation;
-
-        const userExists = await dbApi.userExist(userName);
-        let userId;
-
-        if (!userExists) {
-            userId = await dbApi.addUser(userName);
-        } else {
-            userId = await dbApi.getUserId(userName); // Assuming you have a method to get the userId if the user exists
-        }
-
-        await synchronizeUserRoles(userId, userName, roles);
-
-        logger.info(`User and roles added`);
-        res.json({ message: messageKeys.USER_ADDED });
-    } catch (error) {
-        logger.error(`Error inserting user: ${error}`);
-        const msg = error.message;
-        logger.error(`Error POST /adduser: ${msg} USER: ${req.body.username}`);
-        res.status(500).json({
-            message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_USER,
-        });
-    }
-};
-
-const synchronizeUserRoles = async (userId, userName, roles) => {
+const synchronizeUserRoles = async (userId, roles) => {
     const foundRoles = await dbApi.getUserRoles(userId);
 
     // Extract role names from foundRoles objects
@@ -65,36 +36,7 @@ exports.addUser = async (req, res) => {
             userId = await dbApi.getUserId(userName); // Assuming you have a method to get the userId if the user exists
         }
 
-        await synchronizeUserRoles(userId, userName, roles);
-
-        logger.info('User and roles added/updated');
-        res.json({ message: messageKeys.USER_ADDED });
-    } catch (error) {
-        logger.error(`Error inserting user: ${error}`);
-        const msg = error.message;
-        logger.error(`Error POST /adduser: ${msg} USER: ${req.body.username}`);
-        res.status(500).json({
-            message: messageKeys.ERROR_MESSAGE_FAILED_TO_ADD_USER,
-        });
-    }
-};
-
-exports.addUser = async (req, res) => {
-    try {
-        const user = req.body;
-        const userName = user.eppn;
-        const roles = user.eduPersonAffiliation;
-
-        const userExists = await dbApi.userExist(userName);
-        let userId;
-
-        if (!userExists) {
-            userId = await dbApi.addUser(userName);
-        } else {
-            userId = await dbApi.getUserId(userName); // Assuming you have a method to get the userId if the user exists
-        }
-
-        await synchronizeUserRoles(userId, userName, roles);
+        await synchronizeUserRoles(userId, roles);
 
         logger.info('User and roles added/updated');
         res.json({ message: messageKeys.USER_ADDED });

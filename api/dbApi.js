@@ -196,7 +196,7 @@ exports.getUserRoles = async (userId) => {
         if (result.rowCount > 0) {
             return result.rows;
         } else {
-            return null;
+            return [];
         }
     } catch (err) {
         logger.error(`Error reading user roles with userId ${userId} : ${err} `);

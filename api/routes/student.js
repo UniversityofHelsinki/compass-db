@@ -9,6 +9,11 @@ module.exports = (router) => {
     res.json(await courses.forStudent(student));
   });
 
+  router.get('/studentCourses/:student', async (req, res) => {
+    const student = req.params.student;
+    res.json(await courses.studentCourses(student));
+  });
+
   router.get('/courses/:course/assignments/:student', async (req, res) => {
     const { course, student } = req.params;
     res.json(await assignments.student(course, student));
@@ -45,6 +50,11 @@ module.exports = (router) => {
   router.get('/course/assignment/answer/:assignment_id/:student/:course', async (req, res) => {
     const { assignment_id, student, course } = req.params;
     res.json(await answers.getAnswerAssignmentCourse(assignment_id, student, course));
+  });
+
+  router.get('/course/assignment/answer/:student/:course', async (req, res) => {
+    const { student, course } = req.params;
+    res.json(await answers.getCourseAssignmentAnswer(student, course));
   });
 
   router.post('/deleteStudentAnswer', answers.deleteStudentAnswer);

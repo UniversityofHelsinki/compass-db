@@ -3,78 +3,84 @@ const questions = require('../../services/questions.js');
 const assignments = require('../../services/assignments.js');
 
 module.exports = (router) => {
-
-  router.post('/courses', async (req, res) => {
-    const course = (await courses.save(req.body))[0];
-    if (req.body.assignments) {
-      const courseAssignments = req.body.assignments.map(a =>
-          ({ ...a, course_id: course.course_id })
-      );
-      if (courseAssignments) {
-        const saved = courseAssignments.map(assignments.save);
-        return res.json({
-          ...course,
-          assignments: (await Promise.all(saved)).flat()
-        });
-      }
-    }
-    return res.json(course);
-  });
-
-  router.put('/courses', async (req, res) => {
-    const course = (await courses.update(req.body))[0];
-    const courseAssignments = req.body.assignments;
-    if (courseAssignments) {
-      const updated = courseAssignments.map(assignment => {
-        if (assignment.id) {
-          return assignments.update(assignment);
+    router.post('/courses', async (req, res) => {
+        const course = (await courses.save(req.body))[0];
+        if (req.body.assignments) {
+            const courseAssignments = req.body.assignments.map((a) => ({
+                ...a,
+                course_id: course.course_id,
+            }));
+            if (courseAssignments) {
+                const saved = courseAssignments.map(assignments.save);
+                return res.json({
+                    ...course,
+                    assignments: (await Promise.all(saved)).flat(),
+                });
+            }
         }
-        return assignments.save({
-          ...assignment,
-          course_id: course.course_id
-        });
-      });
+        return res.json(course);
+    });
 
-      return res.json({
-        ...course,
-        assignments: (await Promise.all(updated)).flat()
-      });
+    router.put('/courses', async (req, res) => {
+        const course = (await courses.update(req.body))[0];
+        const courseAssignments = req.body.assignments;
+        if (courseAssignments) {
+            const savedCourseAssignments = await assignments.forCourse(course.course_id);
 
-    }
-    res.json({ ...course, assignments: [] });
-  });
+            const removedAssignments = savedCourseAssignments.filter(
+                (a) => !courseAssignments.map((ca) => ca.id).includes(a.id),
+            );
 
-  router.get('/courses/:teacher', async (req, res) => {
-    const teacher = req.params.teacher;
-    res.json(await courses.forTeacher(teacher));
-  });
+            await Promise.all(removedAssignments.map((a) => assignments.remove(a)));
 
-  router.get('/courses/:teacher/:course', async (req, res) => {
-    const { teacher } = req.params;
-    const course = await courses.singleCourse(teacher, req.params.course);
-    const courseAssignments = await assignments.forCourse(course.course_id);
-    if (courseAssignments) {
-      return res.json({
-        ...course,
-        assignments: (await Promise.all(courseAssignments)).flat()
-      });
-    }
-    return res.json(course);
-  });
+            const updated = courseAssignments.map((assignment) => {
+                if (assignment.id) {
+                    return assignments.update(assignment);
+                }
+                return assignments.save({
+                    ...assignment,
+                    course_id: course.course_id,
+                });
+            });
 
-  router.get('/courses/:course/questions', async (req, res) => {
-    const course = req.params.course;
-    res.json(await questions.forCourse(course));
-  });
+            return res.json({
+                ...course,
+                assignments: (await Promise.all(updated)).flat(),
+            });
+        }
+        res.json({ ...course, assignments: [] });
+    });
 
-  router.get('/courses/:course/assignments', async (req, res) => {
-    const course = req.params.course;
-    res.json(await assignments.forCourse(course));
-  });
+    router.get('/courses/:teacher', async (req, res) => {
+        const teacher = req.params.teacher;
+        res.json(await courses.forTeacher(teacher));
+    });
 
-  router.get('/courses/:course/students', async (req, res) => {
-    const course = req.params.course;
-    res.json(await courses.students(course));
-  });
+    router.get('/courses/:teacher/:course', async (req, res) => {
+        const { teacher } = req.params;
+        const course = await courses.singleCourse(teacher, req.params.course);
+        const courseAssignments = await assignments.forCourse(course.course_id);
+        if (courseAssignments) {
+            return res.json({
+                ...course,
+                assignments: (await Promise.all(courseAssignments)).flat(),
+            });
+        }
+        return res.json(course);
+    });
+
+    router.get('/courses/:course/questions', async (req, res) => {
+        const course = req.params.course;
+        res.json(await questions.forCourse(course));
+    });
+
+    router.get('/courses/:course/assignments', async (req, res) => {
+        const course = req.params.course;
+        res.json(await assignments.forCourse(course));
+    });
+
+    router.get('/courses/:course/students', async (req, res) => {
+        const course = req.params.course;
+        res.json(await courses.students(course));
+    });
 };
-

@@ -103,7 +103,7 @@ exports.userExist = async (user_id) => {
 exports.getAnswer = async (assignment_id) => {
     try {
         const answerSQL = fs.readFileSync(path.resolve(__dirname, "../sql/student/answer.sql"), "utf8");
-        const result = await database.query(answerSQL, [assignment_id]);
+        const result = await database.query(answerSQL, [parseInt(assignment_id)]);
         if (result && result.length > 0) {
             return result[0];
         } else {

@@ -1,6 +1,14 @@
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const { describe, afterEach, beforeEach, beforeAll, afterAll, test, expect } = require("@jest/globals");
-const database = require("../services/database");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const {
+    describe,
+    afterEach,
+    beforeEach,
+    beforeAll,
+    afterAll,
+    test,
+    expect,
+} = require('@jest/globals');
+const database = require('../services/database');
 const dbApi = require('./dbApi');
 
 beforeAll(async () => {
@@ -87,7 +95,7 @@ describe('Database tests', () => {
         let users = await database.query('SELECT * FROM USERS');
         expect(users.rows[0]).toBeUndefined();
 
-        await dbApi.adduser('john@helsinki.fi');
+        await dbApi.addUser('john@helsinki.fi');
 
         let usersAfterInsertion = await database.query('SELECT * FROM USERS');
         expect(usersAfterInsertion.rows).toHaveLength(1);
@@ -99,7 +107,7 @@ describe('Database tests', () => {
         let users = await database.query('SELECT * FROM USERS');
         expect(users.rows[0]).toBeUndefined();
 
-        await dbApi.adduser('john@helsinki.fi');
+        await dbApi.addUser('john@helsinki.fi');
 
         let usersAfterInsertion = await database.query('SELECT * FROM USERS');
         expect(usersAfterInsertion.rows).toHaveLength(1);
@@ -127,7 +135,7 @@ describe('Database tests', () => {
             course_id: 'CS101',
             value: 'Answer1',
             order_nbr: 1,
-            assignment_id: foundAssignments.rows[0].id
+            assignment_id: foundAssignments.rows[0].id,
         });
 
         const answersAfterInsertion = await database.query('SELECT * FROM answer');
@@ -143,7 +151,7 @@ describe('Database tests', () => {
             course_id: 'CS101',
             value: 'Answer1',
             order_nbr: 1,
-            assignment_id: foundAssignments.rows[0].id
+            assignment_id: foundAssignments.rows[0].id,
         });
 
         const updatedAnswer = await dbApi.saveAnswer({
@@ -152,13 +160,15 @@ describe('Database tests', () => {
             course_id: 'CS101',
             value: 'Updated Answer1',
             order_nbr: 1,
-            assignment_id: foundAssignments.rows[0].id
+            assignment_id: foundAssignments.rows[0].id,
         });
 
         expect(updatedAnswer).not.toBeNull();
         expect(updatedAnswer.value).toBe('Updated Answer1');
 
-        const answersAfterUpdate = await database.query('SELECT * FROM answer WHERE id = $1', [insertedAnswer.id]);
+        const answersAfterUpdate = await database.query('SELECT * FROM answer WHERE id = $1', [
+            insertedAnswer.id,
+        ]);
         expect(answersAfterUpdate.rows.length).toBe(1);
         expect(answersAfterUpdate.rows[0].value).toBe('Updated Answer1');
     });

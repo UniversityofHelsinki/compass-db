@@ -21,7 +21,7 @@ const synchronizeUserRoles = async (userId, roles) => {
     }
 };
 
-exports.addUser = async (req, res) => {
+const addUser = async (req, res) => {
     try {
         const user = req.body;
         const userName = user.eppn;
@@ -50,7 +50,8 @@ exports.addUser = async (req, res) => {
     }
 };
 
-exports.addcourse = async (req, res) => {
+// Other exports
+const addcourse = async (req, res) => {
     try {
         let data = req.body;
         await dbApi.addcourse(data);
@@ -69,7 +70,7 @@ exports.addcourse = async (req, res) => {
     }
 };
 
-exports.connectusertocourse = async (req, res) => {
+const connectusertocourse = async (req, res) => {
     try {
         let data = req.body;
         await dbApi.connectusertocourse(data);
@@ -88,7 +89,7 @@ exports.connectusertocourse = async (req, res) => {
     }
 };
 
-exports.isuserincourse = async (req, res) => {
+const isuserincourse = async (req, res) => {
     try {
         let course_id = req.params.course_id;
         let user_id = req.params.user_id;
@@ -111,7 +112,7 @@ exports.isuserincourse = async (req, res) => {
     }
 };
 
-exports.userExist = async (req, res) => {
+const userExist = async (req, res) => {
     try {
         let user_id = req.params.user_id;
         let user_found_in_course = await dbApi.userExist(user_id);
@@ -131,4 +132,13 @@ exports.userExist = async (req, res) => {
             message: messageKeys.ERROR_MESSAGE_USER_EXIST_IN_DATABASE,
         });
     }
+};
+
+module.exports = {
+    synchronizeUserRoles,
+    addUser,
+    addcourse,
+    connectusertocourse,
+    isuserincourse,
+    userExist,
 };

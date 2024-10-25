@@ -1,7 +1,7 @@
 const { describe, beforeEach, it, expect } = require('@jest/globals');
-const dbApi = require('../api/dbApi'); // Adjust the path to your `dbApi` module
+const dbApi = require('../api/dbApi');
 const { addUser } = require('../services/users');
-const { synchronizeUserRoles } = require('./users'); // Adjust the path to your `users` module
+const { synchronizeUserRoles } = require('./users');
 
 const messageKeys = {
     USER_ADDED: 'user-added',

@@ -56,6 +56,15 @@ module.exports = (router) => {
         res.json(await courses.forTeacher(teacher));
     });
 
+    router.get('/courses/course_id/:course_id', async (req, res) => {
+        const courseId = req.params.course_id;
+        const result = await courses.byCourseId(courseId);
+        if (result && result.length === 0) {
+            return res.json(null);
+        }
+        res.json(result[0]);
+    });
+
     router.get('/courses/:teacher/:course', async (req, res) => {
         const { teacher } = req.params;
         const course = await courses.singleCourse(teacher, req.params.course);

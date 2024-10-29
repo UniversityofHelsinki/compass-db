@@ -14,6 +14,8 @@ SELECT
     c.course_id,
     c.title AS course_title,
     a.topic AS assignment_topic,
+    a.start_date,
+    a.end_date,
     ans.order_nbr,
     COUNT(ans.id) AS order_nbr_count,
     (COUNT(ans.id) * 100.0 / ac.total_answer_count) AS order_nbr_percentage,

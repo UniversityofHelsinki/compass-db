@@ -1,4 +1,4 @@
-SELECT COURSE.title, ASSIGNMENT.topic, ASSIGNMENT.course_id
+SELECT COURSE.title, COURSE.id , ASSIGNMENT.topic, ASSIGNMENT.course_id
 FROM ASSIGNMENT
          JOIN COURSE ON
     ASSIGNMENT.course_id = COURSE.course_id AND

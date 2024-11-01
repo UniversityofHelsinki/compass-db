@@ -153,20 +153,20 @@ exports.userExist = async (userName) => {
     }
 };
 
-exports.getAnswer = async (assignment_id) => {
+exports.getAnswersByAssignmentId = async (assignmentId) => {
     try {
         const answerSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/student/answer.sql'),
             'utf8',
         );
-        const result = await database.query(answerSQL, [parseInt(assignment_id)]);
-        if (result && result.length > 0) {
-            return result[0];
+        const result = await database.query(answerSQL, [parseInt(assignmentId)]);
+        if (result && result.rowCount > 0) {
+            return result.rows;
         } else {
             return null;
         }
     } catch (err) {
-        logger.error(`Error reading answer with assignment_id ${assignment_id} : ${err} `);
+        logger.error(`Error reading answer with assignment_id ${assignmentId} : ${err} `);
         throw err;
     }
 };

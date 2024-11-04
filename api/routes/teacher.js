@@ -31,7 +31,16 @@ module.exports = (router) => {
                 (a) => !courseAssignments.map((ca) => ca.id).includes(a.id),
             );
 
-            await Promise.all(removedAssignments.map((a) => assignments.remove(a)));
+            const isOnGoingAssignment = (assignment) => {
+                const now = new Date();
+                return assignment.start_date <= now && assignment.end_date >= now;
+            };
+
+            await Promise.all(
+                removedAssignments
+                    .filter((assignment) => !isOnGoingAssignment(assignment))
+                    .map((a) => assignments.remove(a)),
+            );
 
             const updated = courseAssignments.map((assignment) => {
                 if (assignment.id) {

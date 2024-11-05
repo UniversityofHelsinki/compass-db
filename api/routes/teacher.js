@@ -1,6 +1,10 @@
 const courses = require('../../services/courses.js');
 const questions = require('../../services/questions.js');
 const assignments = require('../../services/assignments.js');
+const answers = require('../../services/answers');
+const { statisticsForCourse } = require('../../services/statistics');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 
 module.exports = (router) => {
     router.post('/courses', async (req, res) => {
@@ -82,5 +86,16 @@ module.exports = (router) => {
     router.get('/courses/:course/students', async (req, res) => {
         const course = req.params.course;
         res.json(await courses.students(course));
+    });
+
+    router.get('/statistics/course/:course', async (req, res) => {
+        const course = req.params.course;
+        res.json(await statisticsForCourse(course));
+    });
+
+    router.get('/assignment/:assignmentId/answers', async (req, res) => {
+        const assignmentId = req.params.assignmentId;
+        const result = await answers.getAnswersByAssignmentId(assignmentId);
+        res.json(result);
     });
 };

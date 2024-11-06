@@ -35,7 +35,16 @@ module.exports = (router) => {
                 (a) => !courseAssignments.map((ca) => ca.id).includes(a.id),
             );
 
-            await Promise.all(removedAssignments.map((a) => assignments.remove(a)));
+            const isOnGoingAssignment = (assignment) => {
+                const now = new Date();
+                return assignment.start_date <= now && assignment.end_date >= now;
+            };
+
+            await Promise.all(
+                removedAssignments
+                    .filter((assignment) => !isOnGoingAssignment(assignment))
+                    .map((a) => assignments.remove(a)),
+            );
 
             const updated = courseAssignments.map((assignment) => {
                 if (assignment.id) {
@@ -58,6 +67,15 @@ module.exports = (router) => {
     router.get('/courses/:teacher', async (req, res) => {
         const teacher = req.params.teacher;
         res.json(await courses.forTeacher(teacher));
+    });
+
+    router.get('/courses/course_id/:course_id', async (req, res) => {
+        const courseId = req.params.course_id;
+        const result = await courses.byCourseId(courseId);
+        if (result && result.length === 0) {
+            return res.json(null);
+        }
+        res.json(result[0]);
     });
 
     router.get('/courses/:teacher/:course', async (req, res) => {

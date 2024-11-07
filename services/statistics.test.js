@@ -138,6 +138,7 @@ describe('statistics for course', () => {
                 order_nbr: 0,
                 order_nbr_percentage: '100.0000000000000000',
                 answer_count: '1',
+                avg_answer_level: '0.00000000000000000000',
             },
             {
                 assignment_id: 2,
@@ -149,6 +150,7 @@ describe('statistics for course', () => {
                 order_nbr: 1,
                 order_nbr_percentage: '100.0000000000000000',
                 answer_count: '1',
+                avg_answer_level: '1.00000000000000000000',
             },
         ];
         expect(stats).toEqual(expectedStats);

@@ -59,13 +59,24 @@ exports.students = async (course) => {
     return await database.execute('course/students.sql', [course]);
 };
 
-exports.course = async (course_id) => {
-    if (!course_id) {
-        throw new Error(`course ${course_id} must be defined.`);
-    }
-    return await database.execute('course/course.sql', [course_id]);
-};
+exports.course = async (student, id) => {
+  if (!id) {
+    throw new Error(
+        `course ${id} must be defined.`
+    );
+  } if (!student) {
+    throw new Error(
+        `student ${student} must be defined.`
+    );
+  }
 
+  const result = await database.execute('course/course.sql', [student, id]);
+  if (result && result.length > 0) {
+    return result[0];
+  } else {
+    return null;
+  }
+}
 exports.byCourseId = async (course_id) => {
     if (!course_id) {
         return null;

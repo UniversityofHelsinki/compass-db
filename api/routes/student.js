@@ -30,15 +30,15 @@ module.exports = (router) => {
         res.json(await answers.getAnswersByAssignmentId(assignment_id));
     });
 
-    router.get('/course/:course_id', async (req, res) => {
-        const { course_id } = req.params;
-        res.json(await courses.course(course_id));
-    });
+  router.get('/course/:id/:student', async (req, res) => {
+    const { id, student} = req.params;
+    res.json(await courses.course(student, id));
+  });
 
-    router.get('/course/assignment/:assignment_id', async (req, res) => {
-        const { assignment_id } = req.params;
-        res.json(await assignments.assignment(assignment_id));
-    });
+  router.get('/course/assignment/feedback/:assignment_id', async (req, res) => {
+    const { assignment_id } = req.params;
+    res.json(await assignments.assignment(assignment_id));
+  });
 
     router.get('/assignment/course/:assignment_id', async (req, res) => {
         const { assignment_id } = req.params;

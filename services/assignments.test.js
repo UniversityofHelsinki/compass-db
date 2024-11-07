@@ -1,8 +1,8 @@
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require("@jest/globals");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require('@jest/globals');
 const courses = require('./courses');
 const assignments = require('./assignments');
-const database = require("../services/database");
+const database = require('../services/database');
 
 beforeAll(async () => {
     // Any initial database setups, if required
@@ -10,23 +10,27 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-    await database.query('CREATE TEMPORARY TABLE IF NOT EXISTS course (' +
-        'id SERIAL PRIMARY KEY, ' +
-        'course_id VARCHAR(255) UNIQUE, ' +
-        'user_name VARCHAR(255), ' +
-        'title VARCHAR(255), ' +
-        'description TEXT, ' +
-        'start_date TIMESTAMPTZ, ' +
-        'end_date TIMESTAMPTZ)');
+    await database.query(
+        'CREATE TEMPORARY TABLE IF NOT EXISTS course (' +
+            'id SERIAL PRIMARY KEY, ' +
+            'course_id VARCHAR(255) UNIQUE, ' +
+            'user_name VARCHAR(255), ' +
+            'title VARCHAR(255), ' +
+            'description TEXT, ' +
+            'start_date TIMESTAMPTZ, ' +
+            'end_date TIMESTAMPTZ)',
+    );
 
-    await database.query('CREATE TEMPORARY TABLE IF NOT EXISTS assignment (' +
-        'id SERIAL PRIMARY KEY, ' +
-        'course_id VARCHAR(255) REFERENCES course(course_id), ' +
-        'topic VARCHAR(255), ' +
-        'start_date TIMESTAMPTZ, ' +
-        'end_date TIMESTAMPTZ, ' +
-        'created TIMESTAMPTZ, ' +
-        'deadline TIMESTAMPTZ)');
+    await database.query(
+        'CREATE TEMPORARY TABLE IF NOT EXISTS assignment (' +
+            'id SERIAL PRIMARY KEY, ' +
+            'course_id VARCHAR(255) REFERENCES course(course_id), ' +
+            'topic VARCHAR(255), ' +
+            'start_date TIMESTAMPTZ, ' +
+            'end_date TIMESTAMPTZ, ' +
+            'created TIMESTAMPTZ, ' +
+            'deadline TIMESTAMPTZ)',
+    );
 });
 
 afterEach(async () => {
@@ -44,7 +48,7 @@ describe('Course and Assignments Service with Temporary Tables', () => {
                 title: 'Sample Course',
                 description: 'Course description',
                 start_date: '2023-01-01T10:00:00Z',
-                end_date: '2023-12-31T10:00:00Z'
+                end_date: '2023-12-31T10:00:00Z',
             };
 
             const assignmentData = [
@@ -52,14 +56,20 @@ describe('Course and Assignments Service with Temporary Tables', () => {
                     course_id: 'A123456789',
                     topic: 'Math',
                     start_date: '2023-01-02T10:00:00Z',
-                    end_date: '2023-02-01T10:00:00Z'
+                    end_date: '2023-02-01T10:00:00Z',
+                    order_nbr_percentage: '100.0000000000000000',
+                    answer_count: '1',
+                    avg_answer_level: '0.00000000000000000000',
                 },
                 {
                     course_id: 'A123456789',
                     topic: 'Science',
                     start_date: '2023-02-02T10:00:00Z',
-                    end_date: '2023-03-01T10:00:00Z'
-                }
+                    end_date: '2023-03-01T10:00:00Z',
+                    order_nbr_percentage: '100.0000000000000000',
+                    answer_count: '1',
+                    avg_answer_level: '1.00000000000000000000',
+                },
             ];
 
             // Ensure there are no courses and assignments initially
@@ -73,7 +83,9 @@ describe('Course and Assignments Service with Temporary Tables', () => {
             await courses.save(courseData);
 
             // Query the temporary table to check if the course was added
-            const result = await database.query('SELECT * FROM course WHERE course_id = $1', [courseData.course_id]);
+            const result = await database.query('SELECT * FROM course WHERE course_id = $1', [
+                courseData.course_id,
+            ]);
             const savedCourse = result.rows[0];
 
             expect(savedCourse.id).not.toBeNull();
@@ -87,7 +99,10 @@ describe('Course and Assignments Service with Temporary Tables', () => {
             const trimMilliseconds = (dateString) => dateString.replace('.000Z', 'Z');
 
             // Query the temporary table to check if the assignments were added
-            const assignmentResult = await database.query('SELECT * FROM assignment WHERE course_id = $1', [courseData.course_id]);
+            const assignmentResult = await database.query(
+                'SELECT * FROM assignment WHERE course_id = $1',
+                [courseData.course_id],
+            );
             const savedAssignments = assignmentResult.rows;
 
             // Check assignments count
@@ -95,7 +110,9 @@ describe('Course and Assignments Service with Temporary Tables', () => {
 
             // Check assignments data
             for (let i = 0; i < assignmentData.length; i++) {
-                const trimmedStartDate = trimMilliseconds(savedAssignments[i].start_date.toISOString());
+                const trimmedStartDate = trimMilliseconds(
+                    savedAssignments[i].start_date.toISOString(),
+                );
                 const trimmedEndDate = trimMilliseconds(savedAssignments[i].end_date.toISOString());
 
                 expect(savedAssignments[i].course_id).toEqual(assignmentData[i].course_id);
@@ -103,12 +120,11 @@ describe('Course and Assignments Service with Temporary Tables', () => {
                 expect(trimmedStartDate).toEqual(assignmentData[i].start_date);
                 expect(trimmedEndDate).toEqual(assignmentData[i].end_date);
                 expect(assignmentData[i].created).not.toBeNull();
-
             }
         });
     });
 });
 
-afterAll( done => {
+afterAll((done) => {
     database.end().then(done());
 });

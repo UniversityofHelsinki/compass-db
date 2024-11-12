@@ -26,12 +26,13 @@ const addUser = async (req, res) => {
         const user = req.body;
         const userName = user.eppn;
         const roles = user.eduPersonAffiliation;
+        const displayName = user.displayName;
 
         const userExists = await dbApi.userExist(userName);
         let userId;
 
         if (!userExists) {
-            userId = await dbApi.addUser(userName);
+            userId = await dbApi.addUser(userName, displayName);
         } else {
             userId = await dbApi.getUserId(userName); // Assuming you have a method to get the userId if the user exists
         }

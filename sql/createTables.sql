@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS USERS (
     id serial,
     user_name VARCHAR(255) NOT NULL UNIQUE,
+    display_name VARCHAR(255),
     created TIMESTAMP,
     PRIMARY KEY(id)
 );

@@ -20,6 +20,7 @@ describe('addUser', () => {
             body: {
                 eppn: 'john@university.edu',
                 eduPersonAffiliation: ['student', 'alumni'],
+                displayName: 'John Wales',
             },
         };
 
@@ -33,10 +34,11 @@ describe('addUser', () => {
 
     it('should add user and roles successfully', async () => {
         const userId = 1;
+        const displayName = 'John Wales';
 
         // Mocking dbApi responses
         dbApi.userExist.mockResolvedValue(false);
-        dbApi.addUser.mockResolvedValue(userId);
+        dbApi.addUser.mockResolvedValue(userId, displayName);
         dbApi.getUserId.mockResolvedValue(userId);
         dbApi.getUserRoles.mockResolvedValue([]);
         dbApi.adduserRole.mockResolvedValue({});
@@ -47,7 +49,7 @@ describe('addUser', () => {
 
         // Assertions to verify correct behavior
         expect(dbApi.userExist).toHaveBeenCalledWith('john@university.edu');
-        expect(dbApi.addUser).toHaveBeenCalledWith('john@university.edu');
+        expect(dbApi.addUser).toHaveBeenCalledWith('john@university.edu', 'John Wales');
         expect(dbApi.adduserRole).toHaveBeenNthCalledWith(1, userId, 'student');
         expect(dbApi.adduserRole).toHaveBeenNthCalledWith(2, userId, 'alumni');
         expect(res.json).toHaveBeenCalledWith({ message: messageKeys.USER_ADDED });

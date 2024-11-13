@@ -68,6 +68,19 @@ exports.getCourseAssignmentAnswer = async (student, course) => {
     }
 };
 
+exports.getCourseAssignments = async (course) => {
+    if (!course || course === 'undefined') {
+        throw new Error(`course ${course} must be defined.`);
+    }
+    console.log('getCourseAssignments', course);
+    const result = await database.execute('student/courseAssignments.sql', [course]);
+    if (result && result.length > 0) {
+        return result;
+    } else {
+        return null;
+    }
+};
+
 exports.deleteStudentAnswer = async (req, res) => {
     try {
         let answer = req.body;

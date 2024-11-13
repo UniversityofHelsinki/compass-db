@@ -3,8 +3,7 @@ const questions = require('../../services/questions.js');
 const assignments = require('../../services/assignments.js');
 const answers = require('../../services/answers');
 const { statisticsForCourse } = require('../../services/statistics');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
+const dbApi = require('../dbApi');
 
 module.exports = (router) => {
     router.post('/courses', async (req, res) => {
@@ -114,6 +113,16 @@ module.exports = (router) => {
     router.get('/assignment/:assignmentId/answers', async (req, res) => {
         const assignmentId = req.params.assignmentId;
         const result = await answers.getAnswersByAssignmentId(assignmentId);
+        await Promise.all(
+            result.map(async (answer) => {
+                const user = await dbApi.getUserByUserName(answer.user_name);
+                if (user) {
+                    const nameParts = user.display_name.split(' ');
+                    answer.user_name =
+                        nameParts.length > 1 ? nameParts.reverse().join(' ') : user.display_name;
+                }
+            }),
+        );
         res.json(result);
     });
 };

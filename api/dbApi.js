@@ -153,13 +153,13 @@ exports.userExist = async (userName) => {
     }
 };
 
-exports.getAnswersByAssignmentId = async (assignmentId) => {
+exports.getAnswersByAssignmentId = async (assignmentId, student) => {
     try {
         const answerSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/student/answer.sql'),
             'utf8',
         );
-        const result = await database.query(answerSQL, [parseInt(assignmentId)]);
+        const result = await database.query(answerSQL, [parseInt(assignmentId), student]);
         if (result && result.rowCount > 0) {
             return result.rows;
         } else {

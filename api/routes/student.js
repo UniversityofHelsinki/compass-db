@@ -26,8 +26,8 @@ module.exports = (router) => {
     });
 
     router.get('/answer/:assignment_id/:student', async (req, res) => {
-        const { assignment_id } = req.params;
-        res.json(await answers.getAnswersByAssignmentId(assignment_id));
+        const { assignment_id, student } = req.params;
+        res.json(await answers.getAnswersByAssignmentIdAndUser(assignment_id, student));
     });
 
     router.get('/course/:id/:student', async (req, res) => {

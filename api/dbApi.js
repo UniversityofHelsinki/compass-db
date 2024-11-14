@@ -53,13 +53,13 @@ exports.saveAnswer = async (answer) => {
     }
 };
 
-exports.addUser = async (userName) => {
+exports.addUser = async (userName, displayName) => {
     try {
         const insertUserSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/addUser.sql'),
             'utf8',
         );
-        const result = await database.query(insertUserSQL, [userName, new Date()]);
+        const result = await database.query(insertUserSQL, [userName, new Date(), displayName]);
         if (result?.rowCount > 0) {
             return result?.rows[0]?.id;
         } else {
@@ -167,6 +167,24 @@ exports.getAnswersByAssignmentId = async (assignmentId) => {
         }
     } catch (err) {
         logger.error(`Error reading answer with assignment_id ${assignmentId} : ${err} `);
+        throw err;
+    }
+};
+
+exports.getUserByUserName = async (userName) => {
+    try {
+        const getUserSQL = fs.readFileSync(
+            path.resolve(__dirname, '../sql/getUserByUserName.sql'),
+            'utf8',
+        );
+        const result = await database.query(getUserSQL, [userName]);
+        if (result && result.rowCount > 0) {
+            return result.rows[0];
+        } else {
+            return null;
+        }
+    } catch (err) {
+        logger.error('Error reading user with username : ' + userName + ' : ' + err);
         throw err;
     }
 };

@@ -20,6 +20,7 @@ beforeEach(async () => {
         CREATE TEMPORARY TABLE IF NOT EXISTS USERS (
                                                        id serial PRIMARY KEY,
                                                        user_name VARCHAR(255) NOT NULL UNIQUE,
+                                                       display_name VARCHAR(255),
                                                        created TIMESTAMP
         );
     `);

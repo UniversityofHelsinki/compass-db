@@ -26,8 +26,8 @@ module.exports = (router) => {
     });
 
     router.get('/answer/:assignment_id/:student', async (req, res) => {
-        const { assignment_id, student } = req.params;
-        res.json(await answers.getAnswersByAssignmentIdAndUser(assignment_id, student));
+        const { assignment_id } = req.params;
+        res.json(await answers.getAnswersByAssignmentId(assignment_id));
     });
 
     router.get('/course/:id/:student', async (req, res) => {
@@ -50,9 +50,12 @@ module.exports = (router) => {
         res.json(await answers.getAnswerAssignmentCourse(assignment_id, student, course));
     });
 
-    router.get('/course/assignment/answer/:student/:course', async (req, res) => {
-        const { student, course } = req.params;
-        res.json(await answers.getCourseAssignmentAnswer(student, course));
+    //router.get('/course/assignment/answer/:student/:course', async (req, res) => {
+    router.get('/assignments/course/:course', async (req, res) => {
+        //const { student, course } = req.params;
+        const { course } = req.params;
+        //res.json(await answers.getCourseAssignmentAnswer(student, course));
+        res.json(await answers.getCourseAssignments(course));
     });
 
     router.post('/deleteStudentAnswer', answers.deleteStudentAnswer);

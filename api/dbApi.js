@@ -132,7 +132,11 @@ exports.isuserincourse = async (user_id, course_id) => {
             'utf8',
         );
         const result = await database.query(isUserInCourseSQL, [user_id, course_id]);
-        return result?.user_name === user_id && result?.course_id === course_id;
+        if (result && result.rowCount > 0) {
+            return result.rows[0]?.user_name === user_id && result.rows[0]?.course_id === course_id;
+        } else {
+            return false;
+        }
     } catch (err) {
         logger.error(`Error checking if user is in course : ${err} `);
         throw err;
@@ -153,13 +157,13 @@ exports.userExist = async (userName) => {
     }
 };
 
-exports.getAnswersByAssignmentId = async (assignmentId, student) => {
+exports.getAnswersByAssignmentId = async (assignmentId) => {
     try {
         const answerSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/student/answer.sql'),
             'utf8',
         );
-        const result = await database.query(answerSQL, [parseInt(assignmentId), student]);
+        const result = await database.query(answerSQL, [parseInt(assignmentId)]);
         if (result && result.rowCount > 0) {
             return result.rows;
         } else {

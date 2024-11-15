@@ -1,1 +1,1 @@
-SELECT id FROM answer WHERE assignment_id = $1 AND user_name = $2
+SELECT * FROM answer WHERE assignment_id = $1

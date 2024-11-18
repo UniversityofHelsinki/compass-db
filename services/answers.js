@@ -29,7 +29,11 @@ exports.getAnswersByAssignmentId = async (assignmentId) => {
     return await dbApi.getAnswersByAssignmentId(assignmentId);
 };
 
-exports.getAnswerAssignmentCourse = async (assignment_id, student, course) => {
+const getAnswerAssignmentCourse = (exports.getAnswerAssignmentCourse = async (
+    assignment_id,
+    student,
+    course,
+) => {
     if (!assignment_id || assignment_id === 'undefined') {
         throw new Error(`assignment ${assignment_id} must be defined.`);
     }
@@ -50,40 +54,43 @@ exports.getAnswerAssignmentCourse = async (assignment_id, student, course) => {
     } else {
         return null;
     }
-};
+});
 
-exports.getCourseAssignmentAnswer = async (student, course) => {
+/*getCourseAssignmentAnswer = async (student, course) => {
     if (!student || student === 'undefined') {
         throw new Error(`student ${student} must be defined.`);
     }
     if (!course || course === 'undefined') {
         throw new Error(`course ${course} must be defined.`);
     }
-    console.log('getCourseAssignmentAnswer', student, course);
-    const result = await database.execute('student/courseAssignmentAnswer.sql', [student, course]);
+    //console.log('getCourseAssignmentAnswer', student, course);
+    //const result = await database.execute('student/courseAssignmentAnswer.sql', [student, course]);
     if (result && result.length > 0) {
         result.forEach((elem) => {
             (async () => {
                 let found = await getAnswerAssignmentCourse(elem.assignment_id, student, course);
                 if (found) {
-                    elem = {...elem,  answered: true};
+                    elem = { ...elem, answered: true };
                 } else {
-                    elem = {...elem,  answered: false};
+                    elem = { ...elem, answered: false };
                 }
             })();
-        })
+        });
         return result;
     } else {
         return null;
     }
-};
+};*/
 
-exports.getCourseAssignments = async (course) => {
+exports.getCourseAssignments = async (student, course) => {
+    if (!student || student === 'undefined') {
+        throw new Error(`student ${student} must be defined.`);
+    }
     if (!course || course === 'undefined') {
         throw new Error(`course ${course} must be defined.`);
     }
     console.log('getCourseAssignments', course);
-    const result = await database.execute('student/courseAssignments.sql', [course]);
+    let result = await database.execute('student/courseAssignments.sql', [course]);
     if (result && result.length > 0) {
         return result;
     } else {

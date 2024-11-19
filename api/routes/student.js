@@ -52,7 +52,6 @@ module.exports = (router) => {
     });
 
     router.get('/assignments/course/:student/:course', async (req, res) => {
-    //router.get('/assignments/course/:course', async (req, res) => {
         const { student, course } = req.params;
         let result = await answers.getCourseAssignments(student, course);
         console.log("res:", result);
@@ -71,7 +70,6 @@ module.exports = (router) => {
             console.log("newResult", newResult);
             res.json(newResult);
         });
-        //res.json(result);
     });
 
     router.post('/deleteStudentAnswer', answers.deleteStudentAnswer);

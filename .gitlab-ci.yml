@@ -1,6 +1,7 @@
 image: docker:stable
 
 stages:
+  - setup
   - build
   - test
   - dependency-check
@@ -27,6 +28,19 @@ variables:
 
 services:
   - docker:dind
+
+
+setup_ssh:
+  stage: setup
+  script:
+    - apk update && apk add openssh-client bash
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - ssh-keyscan version.helsinki.fi >> ~/.ssh/known_hosts
+  only:
+    - master
 
 # Define a hidden job to be used with extends
 # Better than default to avoid activating cache for all jobs
@@ -147,6 +161,8 @@ deploy_azure:
   tags:
     - ohtu-build-4
   stage: deploy
+  dependencies:
+    - setup_ssh
   only:
     - main
   when: manual
@@ -154,7 +170,7 @@ deploy_azure:
   before_script:
     - tdnf makecache
     - tdnf install -y gettext git
-    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@version.helsinki.fi/tike-ohtu/compass-configurations.git
+    - git clone git@version.helsinki.fi/tike-ohtu/compass-configurations.git
   script:
     - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
     - az group create --name Self-Reflection-Compass --location northeurope

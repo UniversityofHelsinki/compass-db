@@ -20,9 +20,9 @@ exports.update = async (course) => {
 
 exports.delete = async (course) => {
     const transaction = await database.transaction();
+    await transaction.query('answer/delete.sql', [course.id]);
     await transaction.query('assignment/deleteByCourse.sql', [course.id]);
     await transaction.query('question/delete.sql', [course.id]);
-    await transaction.query('answer/delete.sql', [course.id]);
     await transaction.query('feedback/delete.sql', [course.id]);
     await transaction.query('user_course/delete.sql', [course.id]);
     await transaction.query('course/delete.sql', [course.id]);

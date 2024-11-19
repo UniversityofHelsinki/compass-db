@@ -63,6 +63,11 @@ module.exports = (router) => {
         res.json({ ...course, assignments: [] });
     });
 
+    router.delete('/courses', async (req, res) => {
+        await courses.delete(req.body);
+        res.status(200).end();
+    });
+
     router.get('/courses/:teacher', async (req, res) => {
         const teacher = req.params.teacher;
         res.json(await courses.forTeacher(teacher));

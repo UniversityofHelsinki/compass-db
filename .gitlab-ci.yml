@@ -170,7 +170,7 @@ deploy_azure:
   before_script:
     - tdnf makecache
     - tdnf install -y gettext git
-    - git clone git@version.helsinki.fi/tike-ohtu/compass-configurations.git
+    - git clone git@version.helsinki.fi:tike-ohtu/compass-configurations.git
   script:
     - az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
     - az group create --name Self-Reflection-Compass --location northeurope

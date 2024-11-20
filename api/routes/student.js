@@ -1,6 +1,7 @@
 const courses = require('../../services/courses.js');
 const assignments = require('../../services/assignments.js');
 const answers = require('../../services/answers');
+const {getAnswerAssignmentCourse} = require("../../services/answers");
 
 module.exports = (router) => {
     router.get('/courses/:student', async (req, res) => {
@@ -50,12 +51,25 @@ module.exports = (router) => {
         res.json(await answers.getAnswerAssignmentCourse(assignment_id, student, course));
     });
 
-    //router.get('/course/assignment/answer/:student/:course', async (req, res) => {
-    router.get('/assignments/course/:course', async (req, res) => {
-        //const { student, course } = req.params;
-        const { course } = req.params;
-        //res.json(await answers.getCourseAssignmentAnswer(student, course));
-        res.json(await answers.getCourseAssignments(course));
+    router.get('/assignments/course/:student/:course', async (req, res) => {
+        const { student, course } = req.params;
+        let result = await answers.getCourseAssignments(course);
+        console.log("res:", result);
+
+        let promises = result.map(async (elem) => {
+            let found = await getAnswerAssignmentCourse(elem.id, student, course);
+            if (found){
+                return { ...elem, answered: true };
+            } else {
+                return { ...elem, answered: false };
+            }
+        });
+
+        Promise.all(promises).then((newResult) => {
+            // newResult is your new array. Work with it here.
+            console.log("newResult", newResult);
+            res.json(newResult);
+        });
     });
 
     router.post('/deleteStudentAnswer', answers.deleteStudentAnswer);

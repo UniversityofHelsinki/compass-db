@@ -71,12 +71,9 @@ exports.students = async (course) => {
     return await database.execute('course/students.sql', [course]);
 };
 
-exports.course = async (student, id) => {
+exports.course = async (id) => {
     if (!id) {
         throw new Error(`course ${id} must be defined.`);
-    }
-    if (!student) {
-        throw new Error(`student ${student} must be defined.`);
     }
 
     const result = await database.execute('course/courseWithId.sql', [id]);

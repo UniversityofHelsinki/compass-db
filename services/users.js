@@ -1,6 +1,10 @@
+const courses = require('./courses');
+const { COURSE_ONGOING } = require('../Constants');
+
 const dbApi = require('../api/dbApi.js');
 const { logger } = require('../logger');
 const messageKeys = require('../utils/message-keys');
+const { validatePeriod } = require('../utils/coursePeriodValidation');
 
 const synchronizeUserRoles = async (userId, roles) => {
     const foundRoles = await dbApi.getUserRoles(userId);
@@ -94,13 +98,21 @@ const isuserincourse = async (req, res) => {
     try {
         let course_id = req.params.course_id;
         let user_id = req.params.user_id;
-        let user_found_in_course = await dbApi.isuserincourse(user_id, course_id);
-        if (user_found_in_course) {
-            logger.info(`User found in the course`);
-            res.json({ message: messageKeys.USER_IS_IN_COURSE });
+        let course = await courses.course(course_id);
+        let course_state = validatePeriod(course);
+
+        if (!(course_state === COURSE_ONGOING)) {
+            logger.info(`Course not ongoing`);
+            res.json({ message: messageKeys.COURSE_NOT_ONGOING });
         } else {
-            logger.info(`User not found in the course`);
-            res.json({ message: messageKeys.USER_NOT_IN_COURSE });
+            let user_found_in_course = await dbApi.isuserincourse(user_id, course_id);
+            if (user_found_in_course) {
+                logger.info(`User found in the course`);
+                res.json({ message: messageKeys.USER_IS_IN_COURSE });
+            } else {
+                logger.info(`User not found in the course`);
+                res.json({ message: messageKeys.USER_NOT_IN_COURSE });
+            }
         }
     } catch (error) {
         logger.error(`error checking user in the course`);

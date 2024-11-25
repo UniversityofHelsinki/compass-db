@@ -1,5 +1,13 @@
-const { COURSE_ONGOING, COURSE_OLD, COURSE_FUTURE } = require('../Constants');
+const { COURSE_ONGOING, COURSE_ENDED, COURSE_IN_FUTURE } = require('../Constants');
 
+const formatDate = (dateString) => {
+    let date = new Date(dateString);
+    let day = String(date.getDate()).padStart(2, '0');
+    let month = String(date.getMonth() + 1).padStart(2, '0'); //Months are zero based
+    let year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+};
 const regExpYearMonthDay = /\T(.*)/;
 const removeRestAfterT = (dateString) => dateString.replace(regExpYearMonthDay, '');
 
@@ -15,11 +23,11 @@ const validatePeriod = (course) => {
         let start_d = removeRestAfterT(startDate.toISOString());
         let end_d = removeRestAfterT(endDate.toISOString());
         if (start_d <= today && today <= end_d) {
-            return COURSE_ONGOING;
+            return [COURSE_ONGOING];
         } else if (start_d < today && today > end_d) {
-            return COURSE_OLD;
+            return [COURSE_ENDED, formatDate(end_d)];
         } else {
-            return COURSE_FUTURE;
+            return [COURSE_IN_FUTURE, formatDate(start_d)];
         }
     }
 };

@@ -96,14 +96,16 @@ const connectusertocourse = async (req, res) => {
 
 const isuserincourse = async (req, res) => {
     try {
-        let course_id = req.params.course_id;
+        let id = req.params.id;
         let user_id = req.params.user_id;
-        let course = await courses.course(course_id);
-        let course_state = validatePeriod(course);
+        const { course_id } = req.query;
+
+        let course = await courses.course(id);
+        const [course_state, course_date] = validatePeriod(course);
 
         if (!(course_state === COURSE_ONGOING)) {
             logger.info(`Course not ongoing`);
-            res.json({ message: messageKeys.COURSE_NOT_ONGOING });
+            res.json({ message: course_state, course_date: course_date });
         } else {
             let user_found_in_course = await dbApi.isuserincourse(user_id, course_id);
             if (user_found_in_course) {

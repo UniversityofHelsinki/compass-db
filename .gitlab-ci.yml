@@ -143,3 +143,18 @@ build_image:
     - echo "Pushing main image..."
     - docker push quay.io/tike/compass-db:test
 
+build_image_prod:
+  stage: build
+  only:
+    - prod
+  tags:
+    - ohtu-build-4
+  script:
+    - echo "Logging into quay..."
+    - echo $QUAY_PASSWORD | docker login -u $QUAY_USERNAME --password-stdin quay.io
+    - echo "Building image..."
+    - docker build -t compass-db .
+    - echo "Tagging main image..."
+    - docker tag compass-db quay.io/tike/compass-db:prod
+    - echo "Pushing main image..."
+    - docker push quay.io/tike/compass-db:prod

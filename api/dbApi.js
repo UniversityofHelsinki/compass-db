@@ -69,7 +69,6 @@ exports.saveFeedback = async (feedback) => {
                 feedback.value,
                 parseInt(feedback.order_nbr),
                 feedback.assignment_id,
-                //feedback.feedback_given
             ]);
             if (result && result.rows.length > 0) {
                 return result.rows[0];
@@ -89,7 +88,7 @@ exports.saveFeedback = async (feedback) => {
                 feedback.value,
                 parseInt(feedback.order_nbr),
                 feedback.assignment_id,
-                //feedback.feedback_given
+                feedback.student,
             ]);
             if (result && result.rows.length > 0) {
                 return result.rows[0];

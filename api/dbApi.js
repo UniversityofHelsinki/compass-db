@@ -53,6 +53,56 @@ exports.saveAnswer = async (answer) => {
     }
 };
 
+exports.saveFeedback = async (feedback) => {
+    try {
+        if (feedback.id) {
+            //feedback already in database
+            const insertOrUpdateFeedback = fs.readFileSync(
+                path.resolve(__dirname, '../sql/feedback/insertOrUpdateFeedback.sql'),
+                'utf8',
+            );
+            const result = await database.query(insertOrUpdateFeedback, [
+                feedback.id,
+                feedback.user_name,
+                feedback.course_id,
+                new Date(),
+                feedback.value,
+                parseInt(feedback.order_nbr),
+                feedback.assignment_id,
+                //feedback.feedback_given
+            ]);
+            if (result && result.rows.length > 0) {
+                return result.rows[0];
+            } else {
+                return null;
+            }
+        } else {
+            //insert feedback
+            const insertAnswerSQL = fs.readFileSync(
+                path.resolve(__dirname, '../sql/feedback/insertFeedback.sql'),
+                'utf8',
+            );
+            const result = await database.query(insertAnswerSQL, [
+                feedback.user_name,
+                feedback.course_id,
+                new Date(),
+                feedback.value,
+                parseInt(feedback.order_nbr),
+                feedback.assignment_id,
+                //feedback.feedback_given
+            ]);
+            if (result && result.rows.length > 0) {
+                return result.rows[0];
+            } else {
+                return null;
+            }
+        }
+    } catch (err) {
+        logger.error(`Error inserting feedback : ${err} `);
+        throw err;
+    }
+};
+
 exports.addUser = async (userName, displayName) => {
     try {
         const insertUserSQL = fs.readFileSync(
@@ -171,6 +221,26 @@ exports.getAnswersByAssignmentId = async (assignmentId) => {
         }
     } catch (err) {
         logger.error(`Error reading answer with assignment_id ${assignmentId} : ${err} `);
+        throw err;
+    }
+};
+
+exports.getAnswersAndFeedbacksByAssignmentId = async (assignmentId) => {
+    try {
+        const answerSQL = fs.readFileSync(
+            path.resolve(__dirname, '../sql/teacher/answersAndFeedbacks.sql'),
+            'utf8',
+        );
+        const result = await database.query(answerSQL, [parseInt(assignmentId)]);
+        if (result && result.rowCount > 0) {
+            return result.rows;
+        } else {
+            return null;
+        }
+    } catch (err) {
+        logger.error(
+            `Error reading answers and feedbacks with assignment_id ${assignmentId} : ${err} `,
+        );
         throw err;
     }
 };

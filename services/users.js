@@ -39,12 +39,9 @@ const addUser = async (req, res) => {
         if (!userExists) {
             userId = await dbApi.addUser(userName, displayName);
         } else {
-            userId = await dbApi.getUserId(userName); // Assuming you have a method to get the userId if the user exists
+            userId = await dbApi.getUserId(userName);
         }
-
         await synchronizeUserRoles(userId, roles);
-
-        logger.info('User and roles added/updated');
         res.json({ message: messageKeys.USER_ADDED });
     } catch (error) {
         logger.error(`Error inserting user: ${error}`);

@@ -117,8 +117,6 @@ module.exports = (router) => {
         statistics = await statisticsForCourse(course);
         resultCopy = [];
         let promises = statistics.map(async (row) => {
-            //await Promise.all(
-            //statistics.map(async (row) => {
             copy = null;
             const result = await getAnswersAndFeedbacksByAssignmentId(row.assignment_id);
             answercopy = [];
@@ -131,10 +129,7 @@ module.exports = (router) => {
                             nameParts.length > 1
                                 ? nameParts.reverse().join(' ')
                                 : user.display_name;
-                        //answercopy = {...answer, name: name};
                         answercopy.push({ ...answer, name: name });
-                        /*copy = {...copy, answers: answercopy};
-                            resultCopy.push(copy);*/
                     }
                 }),
             );
@@ -146,30 +141,10 @@ module.exports = (router) => {
             }
             resultCopy.push(copy);
         });
-        //remove duplicates
-        //let result = resultCopy.filter((value, index, self) =>
-        //  self.map(x => x.answers?.answerid).indexOf(value?.answers?.answerid) === index);
 
-        /*let valuesy = new Set();  // To store field1 values that we have seen
-
-        let result = resultCopy.reduce((acc, cur) => {
-            if (cur?.answers?.answerid !== undefined && !valuesy.has(cur?.answers?.answerid)) {
-                // If we haven't seen this field1 value before, add it to the set and keep the object as is
-                valuesy.add(cur.answers.answerid);
-                acc.push(cur);
-            } else {
-                // If we have seen this field1 value before, remove the field1 property from the current object
-                let {answers, ...rest} = cur;
-                acc.push(rest);
-            }
-            return acc;
-        }, []);*/
         Promise.all(promises).then((newResult) => {
-            // newResult is your new array. Work with it here.
-            console.log('newResult', newResult);
             res.json(resultCopy);
         });
-        //res.json(resultCopy);
     });
 
     router.get('/assignment/:assignmentId/answers', async (req, res) => {

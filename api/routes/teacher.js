@@ -4,6 +4,8 @@ const assignments = require('../../services/assignments.js');
 const answers = require('../../services/answers');
 const { statisticsForCourse } = require('../../services/statistics');
 const dbApi = require('../dbApi');
+const { getAnswersAndFeedbacksByAssignmentId } = require('../dbApi');
+const console = require('console');
 
 module.exports = (router) => {
     router.post('/courses', async (req, res) => {
@@ -112,22 +114,77 @@ module.exports = (router) => {
 
     router.get('/statistics/course/:course', async (req, res) => {
         const course = req.params.course;
-        res.json(await statisticsForCourse(course));
+        statistics = await statisticsForCourse(course);
+        resultCopy = [];
+        let promises = statistics.map(async (row) => {
+            copy = null;
+            const result = await getAnswersAndFeedbacksByAssignmentId(row.assignment_id);
+            answercopy = [];
+            await Promise.all(
+                result.map(async (answer, index) => {
+                    const user = await dbApi.getUserByUserName(answer.answer_user_name);
+                    if (user) {
+                        const nameParts = user.display_name.split(' ');
+                        let name =
+                            nameParts.length > 1
+                                ? nameParts.reverse().join(' ')
+                                : user.display_name;
+                        answercopy.push({ ...answer, name: name });
+                    }
+                }),
+            );
+            if (answercopy.length > 0) {
+                copy = { ...row, answers: answercopy };
+                answercopy = [];
+            } else {
+                copy = { ...row };
+            }
+            resultCopy.push(copy);
+        });
+
+        Promise.all(promises).then((newResult) => {
+            res.json(resultCopy);
+        });
     });
 
     router.get('/assignment/:assignmentId/answers', async (req, res) => {
         const assignmentId = req.params.assignmentId;
         const result = await answers.getAnswersByAssignmentId(assignmentId);
+        resultCopy = [];
         await Promise.all(
             result.map(async (answer) => {
+                //console.log('id,user', answer.assignment_id, answer.user_name);
                 const user = await dbApi.getUserByUserName(answer.user_name);
                 if (user) {
                     const nameParts = user.display_name.split(' ');
-                    answer.user_name =
+                    let name =
                         nameParts.length > 1 ? nameParts.reverse().join(' ') : user.display_name;
+                    copy = { ...answer, name: name };
+                    //answer = copy;
+                    resultCopy.push(copy);
                 }
             }),
         );
-        res.json(result);
+        res.json(resultCopy);
+    });
+
+    router.get('/assignment/:assignmentId/answersAndFeedbacks', async (req, res) => {
+        const assignmentId = req.params.assignmentId;
+        const result = await getAnswersAndFeedbacksByAssignmentId(assignmentId);
+        resultCopy = [];
+        await Promise.all(
+            result.map(async (row) => {
+                //console.log('id,user', row.assignment_id, row.answer_user_name);
+                const user = await dbApi.getUserByUserName(row.answer_user_name);
+                if (user) {
+                    const nameParts = user.display_name.split(' ');
+                    let name =
+                        nameParts.length > 1 ? nameParts.reverse().join(' ') : user.display_name;
+                    copy = { ...row, name: name };
+                    resultCopy.push(copy);
+                }
+            }),
+        );
+        res.json(resultCopy);
     });
 };

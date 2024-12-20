@@ -1,0 +1,1 @@
+SELECT * FROM feedback WHERE  COURSE_ID = $1

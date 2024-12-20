@@ -2,6 +2,7 @@ const courses = require('../../services/courses.js');
 const assignments = require('../../services/assignments.js');
 const answers = require('../../services/answers');
 const { getAnswerAssignmentCourse } = require('../../services/answers');
+const feedback = require('../../services/feedback');
 
 module.exports = (router) => {
     router.get('/courses/:student', async (req, res) => {
@@ -20,6 +21,18 @@ module.exports = (router) => {
     });
 
     router.post('/saveAnswer', answers.saveAnswer);
+
+    router.post('/saveFeedback', feedback.saveFeedback);
+
+    router.get('/feedback/:course_id/:assignment_id/:student', async (req, res) => {
+        const { course_id, assignment_id, student } = req.params;
+        res.json(await feedback.feedbackForStudent(course_id, student, assignment_id));
+    });
+
+    router.get('/feedbackForCourse/:course_id', async (req, res) => {
+        const { course_id } = req.params;
+        res.json(await feedback.feedbackForCourse(course_id));
+    });
 
     router.get('/courses/:course/answers/:student', async (req, res) => {
         const { course, student } = req.params;

@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS QUESTION (
     assignment_id integer REFERENCES ASSIGNMENT (id),
     order_nbr integer,
     language VARCHAR(20),
-    value VARCHAR(255),
+    question_value VARCHAR(255),
     created TIMESTAMP,
     PRIMARY KEY(id)
 );
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS ANSWER (
     assignment_id integer REFERENCES ASSIGNMENT (id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     user_name VARCHAR(255),
-    value VARCHAR(255),
+    answer_value VARCHAR(255),
     order_nbr integer,
     created TIMESTAMP,
     edited TIMESTAMP,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     student VARCHAR(255),
     order_nbr integer,
-    value VARCHAR(255),
+    feedback_value VARCHAR(255),
     created TIMESTAMP,
     PRIMARY KEY(id)
 );

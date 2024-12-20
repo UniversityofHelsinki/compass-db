@@ -40,7 +40,7 @@ beforeEach(async () => {
             'assignment_id INTEGER REFERENCES assignment(id), ' +
             'course_id VARCHAR(255) REFERENCES course(course_id), ' +
             'user_name VARCHAR(255), ' +
-            'value VARCHAR(255), ' +
+            'answer_value VARCHAR(255), ' +
             'order_nbr INTEGER, ' +
             'created TIMESTAMPTZ, ' +
             'edited TIMESTAMPTZ)',
@@ -118,7 +118,7 @@ describe('statistics for course', () => {
                 assignment_id: assignment.id,
                 course_id: courseData.course_id,
                 user_name: `student${index}@school.com`,
-                value: 'test',
+                answer_value: 'test',
                 order_nbr: index,
             };
             await dbApi.saveAnswer(answer);

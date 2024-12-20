@@ -62,7 +62,7 @@ beforeEach(async () => {
                                                         assignment_id INTEGER REFERENCES assignment(id),
                                                         course_id VARCHAR(255) REFERENCES course(course_id),
                                                         user_name VARCHAR(255),
-                                                        value VARCHAR(255),
+                                                        answer_value VARCHAR(255),
                                                         order_nbr INTEGER,
                                                         created TIMESTAMP,
                                                         edited TIMESTAMP
@@ -134,14 +134,14 @@ describe('Database tests', () => {
         await dbApi.saveAnswer({
             user_name: 'Alice',
             course_id: 'CS101',
-            value: 'Answer1',
+            answer_value: 'Answer1',
             order_nbr: 1,
             assignment_id: foundAssignments.rows[0].id,
         });
 
         const answersAfterInsertion = await database.query('SELECT * FROM answer');
         expect(answersAfterInsertion.rows.length).toBe(1);
-        expect(answersAfterInsertion.rows[0].value).toBe('Answer1');
+        expect(answersAfterInsertion.rows[0].answer_value).toBe('Answer1');
     });
 
     test('Update Existing Answer', async () => {
@@ -150,7 +150,7 @@ describe('Database tests', () => {
         const insertedAnswer = await dbApi.saveAnswer({
             user_name: 'Alice',
             course_id: 'CS101',
-            value: 'Answer1',
+            answer_value: 'Answer1',
             order_nbr: 1,
             assignment_id: foundAssignments.rows[0].id,
         });
@@ -159,19 +159,19 @@ describe('Database tests', () => {
             id: insertedAnswer.id,
             user_name: 'Alice',
             course_id: 'CS101',
-            value: 'Updated Answer1',
+            answer_value: 'Updated Answer1',
             order_nbr: 1,
             assignment_id: foundAssignments.rows[0].id,
         });
 
         expect(updatedAnswer).not.toBeNull();
-        expect(updatedAnswer.value).toBe('Updated Answer1');
+        expect(updatedAnswer.answer_value).toBe('Updated Answer1');
 
         const answersAfterUpdate = await database.query('SELECT * FROM answer WHERE id = $1', [
             insertedAnswer.id,
         ]);
         expect(answersAfterUpdate.rows.length).toBe(1);
-        expect(answersAfterUpdate.rows[0].value).toBe('Updated Answer1');
+        expect(answersAfterUpdate.rows[0].answer_value).toBe('Updated Answer1');
     });
 });
 

@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
     id SERIAL,
     assignment_id integer REFERENCES ASSIGNMENT (id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
+    user_name VARCHAR(255),
     student VARCHAR(255),
     order_nbr integer,
     feedback_value VARCHAR(255),

@@ -1,4 +1,4 @@
-SELECT answer.assignment_id, course.title, assignment.topic, answer.value, answer.order_nbr, answer.course_id, answer.id
+SELECT answer.assignment_id, course.title, assignment.topic, answer.answer_value, answer.order_nbr, answer.course_id, answer.id
 FROM course
          JOIN answer ON
     answer.course_id = course.course_id AND

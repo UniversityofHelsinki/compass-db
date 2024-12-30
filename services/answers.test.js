@@ -1,4 +1,4 @@
-const { describe, test, expect, beforeEach } = require("@jest/globals");
+const { describe, test, expect, beforeEach } = require('@jest/globals');
 const supertest = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -21,17 +21,14 @@ describe('saveAnswer function', () => {
         const mockAnswer = {
             user_name: 'testuser',
             course_id: 'CS101',
-            value: 'Test Answer',
+            answer_value: 'Test Answer',
             order_nbr: 1,
-            assignment_id: 1
+            assignment_id: 1,
         };
 
         dbApi.saveAnswer.mockResolvedValue(mockAnswer);
 
-        const response = await supertest(app)
-            .post('/saveAnswer')
-            .send(mockAnswer)
-            .expect(200);
+        const response = await supertest(app).post('/saveAnswer').send(mockAnswer).expect(200);
 
         expect(response.body).toEqual(mockAnswer);
         expect(dbApi.saveAnswer).toHaveBeenCalledWith(mockAnswer);

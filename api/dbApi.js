@@ -244,6 +244,24 @@ exports.getAnswersAndFeedbacksByAssignmentId = async (assignmentId) => {
     }
 };
 
+exports.getUserByUserId = async (userId) => {
+    try {
+        const getUserSQL = fs.readFileSync(
+            path.resolve(__dirname, '../sql/getUserById.sql'),
+            'utf8',
+        );
+        const result = await database.query(getUserSQL, [userId]);
+        if (result && result.rowCount > 0) {
+            return result.rows[0];
+        } else {
+            return null;
+        }
+    } catch (err) {
+        logger.error('Error reading user with userID : ' + userId + ' : ' + err);
+        throw err;
+    }
+};
+
 exports.getUserByUserName = async (userName) => {
     try {
         const getUserSQL = fs.readFileSync(

@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS ANSWER (
     assignment_id integer REFERENCES ASSIGNMENT (id),
     course_id VARCHAR(255) REFERENCES COURSE (course_id),
     user_name VARCHAR(255),
-    answer_value VARCHAR(255),
+    answer_value VARCHAR(3000),
     order_nbr integer,
     created TIMESTAMP,
     edited TIMESTAMP,

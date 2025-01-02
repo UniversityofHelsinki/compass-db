@@ -1,1 +1,1 @@
-SELECT user_name FROM user WHERE user_name = $1
+SELECT user_name FROM users WHERE id = $1

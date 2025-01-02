@@ -45,7 +45,12 @@ module.exports = (router) => {
     });
 
     router.get('/course/:id/:student', async (req, res) => {
-        const { id, student } = req.params;
+        const { id } = req.params;
+        res.json(await courses.course(id));
+    });
+
+    router.get('/course/:id', async (req, res) => {
+        const { id } = req.params;
         res.json(await courses.course(id));
     });
 

@@ -19,11 +19,14 @@ SELECT DISTINCT answer.id as answerId, answer.assignment_id, answer.course_id, a
        feedback.id as feedbackId, feedback.assignment_id as feedback_assignment_id, student as feedback_student,
        feedback.order_nbr as feedback_order_nbr,
        feedback.feedback_value, feedback.created, feedback.user_name as feedback_user_name,
-       course.title as course_title
+       course.title as course_title,
+       users.display_name as user_name
 FROM ANSWER
          JOIN ASSIGNMENT ON ASSIGNMENT.ID = ANSWER.ASSIGNMENT_ID
          JOIN COURSE ON COURSE.COURSE_ID = ASSIGNMENT.COURSE_ID
          LEFT JOIN FEEDBACK ON ASSIGNMENT.COURSE_ID = FEEDBACK.COURSE_ID AND
                                ANSWER.USER_NAME = FEEDBACK.STUDENT AND
                                FEEDBACK.ASSIGNMENT_ID = ANSWER.ASSIGNMENT_ID
+         LEFT JOIN USERS
+                   ON USERS.USER_NAME = ANSWER.USER_NAME
 WHERE ASSIGNMENT.COURSE_ID =  $1 AND ANSWER.USER_NAME = $2

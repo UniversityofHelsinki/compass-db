@@ -3,6 +3,7 @@ const assignments = require('../../services/assignments.js');
 const answers = require('../../services/answers');
 const { getAnswerAssignmentCourse } = require('../../services/answers');
 const feedback = require('../../services/feedback');
+const users = require('../../services/users');
 
 module.exports = (router) => {
     router.get('/courses/:student', async (req, res) => {
@@ -19,6 +20,8 @@ module.exports = (router) => {
         const { course, student } = req.params;
         res.json(await assignments.student(course, student));
     });
+
+    router.get('/studentsInCourse/:course_id', users.studentsInCourse);
 
     router.post('/saveAnswer', answers.saveAnswer);
 

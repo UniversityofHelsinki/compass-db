@@ -6,6 +6,7 @@ const { logger } = require('../logger');
 const messageKeys = require('../utils/message-keys');
 const { validatePeriod } = require('../utils/coursePeriodValidation');
 const { courseAndUserState } = require('../utils/userAndCourseState');
+const database = require('./database');
 
 const synchronizeUserRoles = async (userId, roles) => {
     const foundRoles = await dbApi.getUserRoles(userId);
@@ -134,6 +135,14 @@ const userExist = async (req, res) => {
     }
 };
 
+const studentsInCourse = (async = async (req, res) => {
+    let course_id = req.params.course_id;
+    if (!course_id) {
+        return [];
+    }
+    return res.json(await database.execute('course/studentsInCourse.sql', [course_id]));
+});
+
 module.exports = {
     synchronizeUserRoles,
     addUser,
@@ -141,4 +150,5 @@ module.exports = {
     connectusertocourse,
     isuserincourse,
     userExist,
+    studentsInCourse,
 };

@@ -30,6 +30,10 @@ exports.delete = async (course) => {
     transaction.end();
 };
 
+exports.deleteUserFromCourse = async (user) => {
+    await database.execute('course/deleteUserFromCourse.sql', [user.course_id, user.student]);
+};
+
 exports.forTeacher = async (teacher) => {
     if (!teacher) {
         return [];

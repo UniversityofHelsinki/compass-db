@@ -191,4 +191,9 @@ module.exports = (router) => {
         console.log('studentId', studentId);
         res.json(await getUserByUserId(studentId));
     });
+
+    router.delete('/deleteUserFromCourse', async (req, res) => {
+        await courses.deleteUserFromCourse(req.body);
+        res.status(200).end();
+    });
 };

@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
     user_name VARCHAR(255),
     student VARCHAR(255),
     order_nbr integer,
-    feedback_value VARCHAR(255),
+    feedback_value VARCHAR(3000),
     created TIMESTAMP,
     PRIMARY KEY(id)
 );

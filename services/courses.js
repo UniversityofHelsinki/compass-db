@@ -31,7 +31,18 @@ exports.delete = async (course) => {
 };
 
 exports.deleteUserFromCourse = async (user) => {
+    const transaction = await database.transaction();
     await database.execute('course/deleteUserFromCourse.sql', [user.course_id, user.student]);
+    await transaction.query('answer/deleteUserCourseAssignmentsAnswers.sql', [
+        user.course_id,
+        user.student,
+    ]);
+    await transaction.query('feedback/deleteUserCourseAssignmentsFeedbacks.sql', [
+        user.course_id,
+        user.student,
+    ]);
+    transaction.commit();
+    transaction.end();
 };
 
 exports.forTeacher = async (teacher) => {

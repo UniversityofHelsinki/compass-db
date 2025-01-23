@@ -1,5 +1,6 @@
 const ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER = 'error-failed-to-save-answer';
 const ERROR_MESSAGE_FAILED_TO_SAVE_FEEDBACK = 'error-failed-to-save-feedback';
+const FEEDBACK_REMOVED = 'answer_dialog_feedback_removed_ok';
 const MESSAGE_ANSWER_SAVED = 'answer-saved';
 const ANSWER_NOT_FOUND = 'answer-not-found';
 const ERROR_MESSAGE_FAILED_TO_READ_ANSWER = 'error-failed-to-read-answer';
@@ -21,6 +22,7 @@ const ERROR_MESSAGE_FAILED_TO_GET_COURSE_ANSWERS = 'error-failed-to-get-course-a
 module.exports = {
     ERROR_MESSAGE_FAILED_TO_SAVE_ANSWER,
     ERROR_MESSAGE_FAILED_TO_SAVE_FEEDBACK,
+    FEEDBACK_REMOVED,
     MESSAGE_ANSWER_SAVED,
     ANSWER_NOT_FOUND,
     ERROR_MESSAGE_FAILED_TO_READ_ANSWER,

@@ -7,6 +7,10 @@ exports.saveFeedback = async (req, res) => {
     try {
         let feedback = req.body;
         logger.info('Feedback added/updated');
+        if (feedback?.id && feedback.feedback_value?.length === 0 && feedback.order_nbr == null) {
+            await dbApi.deleteFeedback(feedback.id);
+            return res.status(200).json({ message: messageKeys.FEEDBACK_REMOVED });
+        }
         return res.json(await dbApi.saveFeedback(feedback));
     } catch (error) {
         logger.error(`error inserting feedback`);

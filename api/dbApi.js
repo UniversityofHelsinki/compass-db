@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { logger } = require('../logger');
 const database = require('../services/database');
+const messageKeys = require('../utils/message-keys');
 
 exports.saveAnswer = async (answer) => {
     try {
@@ -53,6 +54,16 @@ exports.saveAnswer = async (answer) => {
     }
 };
 
+exports.deleteFeedback = async (id) => {
+    try {
+        //delete feedback
+        return await database.execute('../sql/feedback/deleteFeedback.sql', [id]);
+    } catch (err) {
+        logger.error(`Error deleting feedback : ${err} `);
+        throw err;
+    }
+};
+
 exports.saveFeedback = async (feedback) => {
     try {
         if (feedback.id) {
@@ -67,7 +78,7 @@ exports.saveFeedback = async (feedback) => {
                 feedback.course_id,
                 new Date(),
                 feedback.feedback_value,
-                parseInt(feedback.order_nbr),
+                feedback.order_nbr !== null ? parseInt(feedback.order_nbr) : null,
                 feedback.assignment_id,
             ]);
             if (result && result.rows.length > 0) {
@@ -86,7 +97,7 @@ exports.saveFeedback = async (feedback) => {
                 feedback.course_id,
                 new Date(),
                 feedback.feedback_value,
-                parseInt(feedback.order_nbr),
+                feedback.order_nbr !== null ? parseInt(feedback.order_nbr) : null,
                 feedback.assignment_id,
                 feedback.student,
             ]);

@@ -13,7 +13,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # Use wildcard to ensure both package.json AND package-lock.json are considered
 COPY package*.json ./
-RUN npm install --ignore-scripts
+RUN NODE_ENV=production npm install --ignore-scripts
 
 # Bundle app source
 COPY . .

@@ -18,11 +18,13 @@ CREATE TABLE IF NOT EXISTS COURSE (
     start_date TIMESTAMPTZ,
     end_date TIMESTAMPTZ,
     created TIMESTAMP,
+    research_authorization BOOLEAN,
     PRIMARY KEY(id)
 );
 CREATE TABLE IF NOT EXISTS USER_COURSE (
     course_id varchar REFERENCES COURSE (course_id),
-    user_name VARCHAR(255) REFERENCES USERS (user_name)
+    user_name VARCHAR(255) REFERENCES USERS (user_name),
+    research_authorization BOOLEAN
 );
 CREATE TABLE IF NOT EXISTS ASSIGNMENT (
     id SERIAL,

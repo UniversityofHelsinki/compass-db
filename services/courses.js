@@ -2,7 +2,15 @@ const { read } = require('../sql/read');
 const database = require('../services/database.js');
 
 const columns = (course) => {
-    const keys = ['course_id', 'user_name', 'title', 'description', 'start_date', 'end_date'];
+    const keys = [
+        'course_id',
+        'user_name',
+        'title',
+        'description',
+        'start_date',
+        'end_date',
+        'research_authorization',
+    ];
     const values = keys.map((key) => course[key]);
     if (course.id) {
         return [course.id, ...values];

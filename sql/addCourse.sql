@@ -1,1 +1,1 @@
-INSERT INTO course (user_name, course_id, title, description, start_date, end_date) VALUES($1, $2, $3, $4, $5, $6) RETURNING *
+INSERT INTO course (user_name, course_id, title, description, start_date, end_date, research_authorization) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *

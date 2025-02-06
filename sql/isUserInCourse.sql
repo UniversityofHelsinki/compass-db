@@ -1,1 +1,1 @@
-SELECT user_name, course_id FROM user_course where user_name = $1 and course_id = $2
+SELECT user_name, course_id, research_authorization FROM user_course where user_name = $1 and course_id = $2

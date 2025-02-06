@@ -152,6 +152,7 @@ exports.addcourse = async (data) => {
         let description = data.description;
         let start_date = data.start_date;
         let end_date = data.end_date;
+        let research_authorization = data.research_authorization;
         const insertUserToCourseSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/addCourse.sql'),
             'utf8',
@@ -163,6 +164,7 @@ exports.addcourse = async (data) => {
             description,
             start_date,
             end_date,
+            research_authorization,
         ]);
     } catch (err) {
         logger.error(`Error adding course : ${err} `);
@@ -174,11 +176,21 @@ exports.connectusertocourse = async (data) => {
     try {
         let user_id = data.user_id;
         let course_id = data.course_id;
+        let research_authorization =
+            data.research_authorization === '1'
+                ? true
+                : data.research_authorization === null
+                  ? null
+                  : false;
         const insertUserToCourseSQL = fs.readFileSync(
             path.resolve(__dirname, '../sql/connectUserToCourse.sql'),
             'utf8',
         );
-        return await database.query(insertUserToCourseSQL, [course_id, user_id]);
+        return await database.query(insertUserToCourseSQL, [
+            course_id,
+            user_id,
+            research_authorization,
+        ]);
     } catch (err) {
         logger.error(`Error adding user to course : ${err} `);
         throw err;

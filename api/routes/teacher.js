@@ -6,24 +6,34 @@ const { statisticsForCourse } = require('../../services/statistics');
 const dbApi = require('../dbApi');
 const { getAnswersAndFeedbacksByAssignmentId, getUserByUserId } = require('../dbApi');
 const console = require('console');
+const database = require('../../services/database');
+const users = require('../../services/users');
 
 module.exports = (router) => {
-    router.post('/courses', async (req, res) => {
-        const course = (await courses.save(req.body))[0];
-        if (req.body.assignments) {
-            const courseAssignments = req.body.assignments.map((a) => ({
-                ...a,
-                course_id: course.course_id,
-            }));
-            if (courseAssignments) {
-                const saved = courseAssignments.map(assignments.save);
-                return res.json({
-                    ...course,
-                    assignments: (await Promise.all(saved)).flat(),
-                });
+    router.post('/courses', async (req, res, next) => {
+        try {
+            course = (await courses.save(req.body))[0];
+            let data = { user_id: req.body.user_name, course_id: req.body.course_id };
+            await dbApi.connectusertocourse(data);
+
+            if (req.body.assignments) {
+                const courseAssignments = req.body.assignments.map((a) => ({
+                    ...a,
+                    course_id: course.course_id,
+                }));
+                if (courseAssignments) {
+                    const saved = courseAssignments.map(assignments.save);
+                    return res.json({
+                        ...course,
+                        assignments: (await Promise.all(saved)).flat(),
+                    });
+                }
             }
+            return res.json(course);
+        } catch (error) {
+            // Catch any errors and handle it, for example, send a response with the error.
+            res.status(500).json({ error: 'Virhe kurssin luonnissa' });
         }
-        return res.json(course);
     });
 
     router.put('/courses', async (req, res) => {
@@ -88,6 +98,14 @@ module.exports = (router) => {
         const { teacher } = req.params;
         const course = await courses.singleCourse(teacher, req.params.course);
         const courseAssignments = await assignments.forCourse(course.course_id);
+        //course['research_authorization'] = course['research_authorization'] ? '1' : '0';
+        course['research_authorization'] =
+            course['research_authorization'] === true
+                ? '1'
+                : course['research_authorization'] === null
+                  ? null
+                  : '0';
+
         if (courseAssignments) {
             return res.json({
                 ...course,

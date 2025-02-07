@@ -4,10 +4,21 @@ const teacherRoutes = require('../../api/routes/teacher');
 
 // Mocking modules
 jest.mock('../../services/courses', () => ({
-    save: jest.fn(),
+    save: jest.fn(async () => [
+        {
+            course_id: 'A123456789',
+            user_name: 'teacher@school.com',
+            title: 'Sample Course',
+            description: 'Course description',
+            start_date: '2023-01-01T10:00:00Z',
+            end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
+        },
+    ]),
 }));
 
-const dbApi = require('../dbApi', () => ({
+jest.mock('../dbApi', () => ({
     connectusertocourse: jest.fn(),
 }));
 

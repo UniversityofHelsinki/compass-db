@@ -12,7 +12,7 @@ const users = require('../../services/users');
 module.exports = (router) => {
     router.post('/courses', async (req, res, next) => {
         try {
-            course = (await courses.save(req.body))[0];
+            const course = (await courses.save(req.body))[0];
             let data = {
                 user_id: req.body.user_name,
                 course_id: req.body.course_id,

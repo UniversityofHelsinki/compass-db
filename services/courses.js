@@ -10,6 +10,7 @@ const columns = (course) => {
         'start_date',
         'end_date',
         'research_authorization',
+        'created',
     ];
     const values = keys.map((key) => course[key]);
     if (course.id) {

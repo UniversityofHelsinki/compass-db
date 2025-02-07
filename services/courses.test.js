@@ -1,8 +1,8 @@
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require("@jest/globals");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const { describe, afterEach, beforeEach, beforeAll, afterAll, expect } = require('@jest/globals');
 const courses = require('./courses');
 const assignments = require('./assignments');
-const database = require("../services/database");
+const database = require('../services/database');
 
 beforeAll(async () => {
     // Any initial database setups, if required
@@ -10,14 +10,18 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-    await database.query('CREATE TEMPORARY TABLE IF NOT EXISTS course (' +
-        'id SERIAL PRIMARY KEY, ' +
-        'course_id VARCHAR(255) UNIQUE, ' +
-        'user_name VARCHAR(255), ' +
-        'title VARCHAR(255), ' +
-        'description TEXT, ' +
-        'start_date TIMESTAMPTZ, ' +
-        'end_date TIMESTAMPTZ)');
+    await database.query(
+        'CREATE TEMPORARY TABLE IF NOT EXISTS course (' +
+            'id SERIAL PRIMARY KEY, ' +
+            'course_id VARCHAR(255) UNIQUE, ' +
+            'user_name VARCHAR(255), ' +
+            'title VARCHAR(255), ' +
+            'description TEXT, ' +
+            'start_date TIMESTAMPTZ, ' +
+            'end_date TIMESTAMPTZ, ' +
+            'research_authorization BOOLEAN, ' +
+            'created TIMESTAMPTZ)',
+    );
 });
 
 afterEach(async () => {
@@ -34,7 +38,9 @@ describe('Course and Assignments Service with Temporary Tables', () => {
                 title: 'Sample Course',
                 description: 'Course description',
                 start_date: '2023-01-01T10:00:00Z',
-                end_date: '2023-12-31T10:00:00Z'
+                end_date: '2023-12-31T10:00:00Z',
+                research_authorization: '1',
+                created: '2023-12-31T10:00:00Z',
             };
 
             // Ensure there are no courses and assignments initially
@@ -45,7 +51,9 @@ describe('Course and Assignments Service with Temporary Tables', () => {
             await courses.save(courseData);
 
             // Query the temporary table to check if the course was added
-            const result = await database.query('SELECT * FROM course WHERE course_id = $1', [courseData.course_id]);
+            const result = await database.query('SELECT * FROM course WHERE course_id = $1', [
+                courseData.course_id,
+            ]);
             const savedCourse = result.rows[0];
 
             // Helper function to trim milliseconds from ISO string
@@ -68,6 +76,6 @@ describe('Course and Assignments Service with Temporary Tables', () => {
     });
 });
 
-afterAll( done => {
+afterAll((done) => {
     database.end().then(done());
 });

@@ -37,9 +37,12 @@ describe('POST /api/teacher/courses', () => {
             start_date: '2023-01-01T10:00:00Z',
             end_date: '2023-12-31T10:00:00Z',
             research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
         };
         //courses.save.mockResolvedValueOnce([newCourse]);
-        courses.save = jest.fn().mockImplementation(() => Promise.resolve([newCourse]));
+        //courses.save = jest.fn().mockImplementation(() =>
+        //    new Promise((resolve) => setTimeout(() => resolve([newCourse]), 2000))
+        //);
 
         const response = await request(app)
             .post('/api/teacher/courses') // Ensure the URL matches the mounted path
@@ -60,6 +63,7 @@ describe('POST /api/teacher/courses', () => {
             start_date: '2023-01-01T10:00:00Z',
             end_date: '2023-12-31T10:00:00Z',
             research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
         };
 
         const newAssignments = [

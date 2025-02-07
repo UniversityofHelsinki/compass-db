@@ -13,7 +13,11 @@ module.exports = (router) => {
     router.post('/courses', async (req, res, next) => {
         try {
             course = (await courses.save(req.body))[0];
-            let data = { user_id: req.body.user_name, course_id: req.body.course_id };
+            let data = {
+                user_id: req.body.user_name,
+                course_id: req.body.course_id,
+                research_authorization: req.body.research_authorization,
+            };
             await dbApi.connectusertocourse(data);
 
             if (req.body.assignments) {

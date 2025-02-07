@@ -62,6 +62,7 @@ describe('statistics for course', () => {
             description: 'Course description',
             start_date: '2023-01-01T10:00:00Z',
             end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
         };
 
         const assignmentData = [

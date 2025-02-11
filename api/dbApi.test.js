@@ -40,7 +40,8 @@ beforeEach(async () => {
                                                         title VARCHAR(255),
                                                         description TEXT,
                                                         start_date TIMESTAMPTZ,
-                                                        end_date TIMESTAMPTZ
+                                                        end_date TIMESTAMPTZ,
+                                                        created TIMESTAMP
         );
     `);
 

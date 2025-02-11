@@ -41,6 +41,7 @@ beforeEach(async () => {
                                                         description TEXT,
                                                         start_date TIMESTAMPTZ,
                                                         end_date TIMESTAMPTZ,
+                                                        created TIMESTAMP,
                                                         research_authorization BOOLEAN
         );
     `);

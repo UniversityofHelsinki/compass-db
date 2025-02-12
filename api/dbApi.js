@@ -197,6 +197,26 @@ exports.connectusertocourse = async (data) => {
     }
 };
 
+exports.updateuserincourse = async (data) => {
+    try {
+        let user_name = data.user_name;
+        let course_id = data.course_id;
+        let research_authorization = data.research_authorization;
+        const updateUserInCourseSQL = fs.readFileSync(
+            path.resolve(__dirname, '../sql/user_course/updateUserInCourse.sql'),
+            'utf8',
+        );
+        return await database.query(updateUserInCourseSQL, [
+            research_authorization,
+            course_id,
+            user_name,
+        ]);
+    } catch (err) {
+        logger.error(`Error updating user in user_course : ${err} `);
+        throw err;
+    }
+};
+
 exports.isuserincourse = async (user_id, course_id) => {
     try {
         const isUserInCourseSQL = fs.readFileSync(

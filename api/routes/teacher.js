@@ -42,6 +42,7 @@ module.exports = (router) => {
 
     router.put('/courses', async (req, res) => {
         const course = (await courses.update(req.body))[0];
+        await dbApi.updateuserincourse(course);
         const courseAssignments = req.body.assignments;
         if (courseAssignments) {
             const savedCourseAssignments = await assignments.forCourse(course.course_id);

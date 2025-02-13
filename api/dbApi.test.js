@@ -41,7 +41,8 @@ beforeEach(async () => {
                                                         description TEXT,
                                                         start_date TIMESTAMPTZ,
                                                         end_date TIMESTAMPTZ,
-                                                        created TIMESTAMP
+                                                        created TIMESTAMP,
+                                                        research_authorization BOOLEAN
         );
     `);
 
@@ -72,8 +73,8 @@ beforeEach(async () => {
 
     // Insert a course
     await database.query(`
-        INSERT INTO course (course_id, user_name, title, description, start_date, end_date) VALUES
-            ('CS101', 'Alice', 'Intro to Computer Science', 'Basic concepts of computer science', now(), now() + interval '1 month');
+        INSERT INTO course (course_id, user_name, title, description, start_date, end_date, research_authorization) VALUES
+            ('CS101', 'Alice', 'Intro to Computer Science', 'Basic concepts of computer science', now(), now() + interval '1 month', false);
     `);
 
     // Insert an assignment

@@ -20,7 +20,9 @@ beforeEach(async () => {
             'title VARCHAR(255), ' +
             'description TEXT, ' +
             'start_date TIMESTAMPTZ, ' +
-            'end_date TIMESTAMPTZ, created TIMESTAMP)',
+            'end_date TIMESTAMPTZ, ' +
+            'research_authorization BOOLEAN, ' +
+            'created TIMESTAMPTZ)',
     );
 
     await database.query(
@@ -62,6 +64,8 @@ describe('statistics for course', () => {
             description: 'Course description',
             start_date: '2023-01-01T10:00:00Z',
             end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
         };
 
         const assignmentData = [

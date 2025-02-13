@@ -4,11 +4,26 @@ const teacherRoutes = require('../../api/routes/teacher');
 
 // Mocking modules
 jest.mock('../../services/courses', () => ({
-    save: jest.fn()
+    save: jest.fn(async () => [
+        {
+            course_id: 'A123456789',
+            user_name: 'teacher@school.com',
+            title: 'Sample Course',
+            description: 'Course description',
+            start_date: '2023-01-01T10:00:00Z',
+            end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
+        },
+    ]),
+}));
+
+jest.mock('../dbApi', () => ({
+    connectusertocourse: jest.fn(),
 }));
 
 jest.mock('../../services/assignments', () => ({
-    save: jest.fn()
+    save: jest.fn(),
 }));
 
 const courses = require('../../services/courses');
@@ -31,9 +46,14 @@ describe('POST /api/teacher/courses', () => {
             title: 'Sample Course',
             description: 'Course description',
             start_date: '2023-01-01T10:00:00Z',
-            end_date: '2023-12-31T10:00:00Z'
+            end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
         };
-        courses.save.mockResolvedValueOnce([newCourse]);
+        //courses.save.mockResolvedValueOnce([newCourse]);
+        //courses.save = jest.fn().mockImplementation(() =>
+        //    new Promise((resolve) => setTimeout(() => resolve([newCourse]), 2000))
+        //);
 
         const response = await request(app)
             .post('/api/teacher/courses') // Ensure the URL matches the mounted path
@@ -52,7 +72,9 @@ describe('POST /api/teacher/courses', () => {
             title: 'Sample Course',
             description: 'Course description',
             start_date: '2023-01-01T10:00:00Z',
-            end_date: '2023-12-31T10:00:00Z'
+            end_date: '2023-12-31T10:00:00Z',
+            research_authorization: '1',
+            created: '2023-12-31T10:00:00Z',
         };
 
         const newAssignments = [
@@ -60,26 +82,26 @@ describe('POST /api/teacher/courses', () => {
                 course_id: 'A123456789',
                 topic: 'Math',
                 start_date: '2023-01-02T10:00:00Z',
-                end_date: '2023-02-01T10:00:00Z'
+                end_date: '2023-02-01T10:00:00Z',
             },
             {
                 course_id: 'A123456789',
                 topic: 'Science',
                 start_date: '2023-02-02T10:00:00Z',
-                end_date: '2023-03-01T10:00:00Z'
-            }
+                end_date: '2023-03-01T10:00:00Z',
+            },
         ];
 
         const savedAssignments = newAssignments.map((assignment, index) => ({
             id: index + 1,
-            ...assignment
+            ...assignment,
         }));
 
         courses.save.mockResolvedValueOnce([newCourse]);
         assignments.save.mockImplementation((assignment) => {
             return Promise.resolve({
                 id: assignmentIdCounter++,
-                ...assignment
+                ...assignment,
             });
         });
 
@@ -93,7 +115,7 @@ describe('POST /api/teacher/courses', () => {
 
         expect(response.body).toEqual({
             ...newCourse,
-            assignments: savedAssignments
+            assignments: savedAssignments,
         });
     });
 });

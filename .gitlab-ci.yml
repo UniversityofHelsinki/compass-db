@@ -26,8 +26,8 @@ variables:
     # container, thanks to volume mount from config.toml
     DOCKER_TLS_CERTDIR: '/certs'
     npm_config_cache: '$CI_PROJECT_DIR/.npm'
-    PROJECT_NAME: "compass-db"
-    PROJECT_VERSION: "1.0.0"
+    PROJECT_NAME: 'compass-db'
+    PROJECT_VERSION: '1.0.0'
 
 services:
     - docker:dind
@@ -71,7 +71,6 @@ submit-sbom:
         - apk add --no-cache curl
     script:
         - "curl -X POST ${DTRACK_API_URL} -H 'Content-Type: multipart/form-data' -H 'X-Api-Key: '${DTRACK_API_KEY} -F 'projectName='${PROJECT_NAME} -F 'autoCreate=true' -F 'projectVersion='${PROJECT_VERSION} -F 'bom=@sbom.xml'"
-
 
 # Define the process for setup stage
 build:

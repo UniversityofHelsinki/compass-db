@@ -241,7 +241,6 @@ exports.userCourse = async (student, course_id) => {
             path.resolve(__dirname, '../sql/isUserInCourse.sql'),
             'utf8',
         );
-        console.log('userCourse', student, course_id);
         const result = await database.query(isUserInCourseSQL, [student, course_id]);
         if (result && result.rowCount > 0) {
             return result.rows[0];

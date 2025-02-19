@@ -4,6 +4,7 @@ const answers = require('../../services/answers');
 const { getAnswerAssignmentCourse } = require('../../services/answers');
 const feedback = require('../../services/feedback');
 const users = require('../../services/users');
+const dbApi = require('../dbApi');
 
 module.exports = (router) => {
     router.get('/courses/:student', async (req, res) => {
@@ -22,6 +23,16 @@ module.exports = (router) => {
     });
 
     router.get('/studentsInCourse/:course_id', users.studentsInCourse);
+
+    router.put('/updateResearchAuthorization', async (req, res) => {
+        const course = req.body;
+        res.json(await dbApi.updateuserincourse(course?.userCourse));
+    });
+
+    router.get('/userCourse/:student/:course_id', async (req, res) => {
+        const { student, course_id } = req.params;
+        res.json(await dbApi.userCourse(student, course_id));
+    });
 
     router.post('/saveAnswer', answers.saveAnswer);
 

@@ -235,6 +235,24 @@ exports.isuserincourse = async (user_id, course_id) => {
     }
 };
 
+exports.userCourse = async (student, course_id) => {
+    try {
+        const isUserInCourseSQL = fs.readFileSync(
+            path.resolve(__dirname, '../sql/isUserInCourse.sql'),
+            'utf8',
+        );
+        const result = await database.query(isUserInCourseSQL, [student, course_id]);
+        if (result && result.rowCount > 0) {
+            return result.rows[0];
+        } else {
+            return null;
+        }
+    } catch (err) {
+        logger.error(`Error reading user_course table : ${err} `);
+        throw err;
+    }
+};
+
 exports.userExist = async (userName) => {
     try {
         const userExistSQL = fs.readFileSync(

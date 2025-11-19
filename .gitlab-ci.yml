@@ -30,7 +30,7 @@ variables:
     PROJECT_VERSION: '1.0.0'
 
 services:
-    - docker:dind
+    - docker:28.5.0-dind
 
 # Define a hidden job to be used with extends
 # Better than default to avoid activating cache for all jobs
